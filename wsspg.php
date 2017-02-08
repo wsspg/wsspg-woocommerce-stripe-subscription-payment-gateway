@@ -10,7 +10,7 @@
  *
  * @wordpress-plugin
  * Plugin Name:        WooCommerce Stripe Subscription Payment Gateway
- * Plugin URI:         https://github.com/wsspg/woocommerce-stripe-subscription-payment-gateway
+ * Plugin URI:         https://github.com/wsspg/wsspg-woocommerce-stripe-subscription-payment-gateway
  * Version:            1.0.0
  * Author:             Wsspg
  * Author URI:         https://github.com/wsspg

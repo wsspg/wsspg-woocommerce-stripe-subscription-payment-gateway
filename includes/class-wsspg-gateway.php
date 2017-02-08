@@ -16,7 +16,7 @@
  * @subpackage  Wsspg/includes
  * @author      wsspg <wsspg@mail.com>
  * @license     https://www.gnu.org/licenses/gpl-3.0.txt
- * @copyright   2016 (c) http://wsspg.co
+ * @copyright   (c) 2016 https://github.com/wsspg
  */
 
 if( ! defined( 'ABSPATH' ) ) exit; // exit if accessed directly.

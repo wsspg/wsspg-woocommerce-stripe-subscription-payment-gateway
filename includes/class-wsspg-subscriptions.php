@@ -9,7 +9,7 @@
  * @subpackage  Wsspg/includes
  * @author      wsspg <wsspg@mail.com>
  * @license     https://www.gnu.org/licenses/gpl-3.0.txt
- * @copyright   2016 (c) http://wsspg.co
+ * @copyright   (c) 2016 https://github.com/wsspg
  */
 
 if( ! defined( 'ABSPATH' ) ) exit; // exit if accessed directly.
@@ -243,9 +243,7 @@ class Wsspg_Subscriptions {
 		
 		$id = $object->id;
 		$type = $object->product_type;
-		$fields = print_r( $object->product_custom_fields, true );
 		$ems = get_post_meta( $id, '_wsspg_enable_multiple_subscriptions', true );
-		$print = "<h2>{$id}</h2><p>{$type}</p><p>{$ems}</p><p>{$fields}</p>";
 		if( $type === 'wsspg_subscription' && ! $is_sold_individually && $ems !== 'yes' ) return true;
 		return $is_sold_individually;
 	}
