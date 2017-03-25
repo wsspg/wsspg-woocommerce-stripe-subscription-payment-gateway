@@ -3,8 +3,8 @@ Contributors: wsspg
 Donate link: https://github.com/wsspg
 Tags: wsspg, stripe, subscription, subscriptions, woocommerce, pci, dss,
 Requires at least: 4.5.3
-Tested up to: 4.7.1
-Stable tag: 1.0.0
+Tested up to: 4.7.3
+Stable tag: 1.0.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -57,3 +57,10 @@ If you need a helping hand, you'll find one on the [support forums](https://word
 1. The payment gateway's settings page.
 2. Subscriptions tab in the My Account screen.
 3. The subscription product type.
+
+== Changelog ==
+
+= 1.0.1 - 2017-03-25 =
+* Add - Support for subscription tax rates.
+* Tweak - Plugin text domain settings.
+* Fix - Grammar and syntax of displayed text (various).
