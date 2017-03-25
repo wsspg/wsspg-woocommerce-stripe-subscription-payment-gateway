@@ -49,4 +49,11 @@ Totally ! Wsspg operates in test mode by default, and incurs no fees or costs. W
 
 = I need some support. Where do I get it ? =
 
-If you need a helping hand, you'll find one on the [support forums](https://wordpress.org/support/plugin/woocommerce-stripe-subscription-payment-gateway).
+If you need a helping hand, you'll find one on the [support forums](https://wordpress.org/support/plugin/wsspg-woocommerce-stripe-subscription-payment-gateway).
+
+
+== Screenshots ==
+
+1. The payment gateway's settings page.
+2. Subscriptions tab in the My Account screen.
+3. The subscription product type.
