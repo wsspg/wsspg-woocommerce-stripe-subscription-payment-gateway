@@ -61,7 +61,7 @@ class Wsspg_API {
 		if( is_wp_error( $response ) || !isset( $response  ) ) {
 			Wsspg::log( sprintf(
 				'[ %s ][ %s ]: %s',
-				__( 'error', 'wsspg' ),
+				__( 'error', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 				$action,
 				print_r( $response, true )
 			) );
@@ -71,7 +71,7 @@ class Wsspg_API {
 			if( isset( $response_body->error ) ) {
 				Wsspg::log( sprintf(
 					'[ %s ][ %s ][ %s ]: %s',
-					__( 'error', 'wsspg' ),
+					__( 'error', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 					$action,
 					isset( $response_headers['request-id'] ) ? $response_headers['request-id'] : '',
 					print_r( $response_body->error, true )

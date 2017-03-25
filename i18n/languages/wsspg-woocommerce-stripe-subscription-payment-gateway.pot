@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wsspg 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-02 15:31.0.00\n"
-"PO-Revision-Date: 2017-02-02 15:31.0.00\n"
+"POT-Creation-Date: 2017-03-25 15:31.0.00\n"
+"PO-Revision-Date: 2017-03-25 15:31.0.00\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -98,37 +98,41 @@ msgstr ""
 msgid "Docs"
 msgstr ""
 
-#: includes/class-wsspg-admin.php:89 includes/class-wsspg-admin.php:90
+#: includes/class-wsspg-admin.php:90 includes/class-wsspg-admin.php:91
 msgid "Get Stripe API Keys"
 msgstr ""
 
-#: includes/class-wsspg-admin.php:94
+#: includes/class-wsspg-admin.php:96
 msgid "Get support for Wsspg"
 msgstr ""
 
-#: includes/class-wsspg-admin.php:95
+#: includes/class-wsspg-admin.php:97
 msgid "Support"
 msgstr ""
 
-#: includes/class-wsspg-admin.php:129
+#: includes/class-wsspg-admin.php:134
 msgid "Manage Stripe Subscriptions"
 msgstr ""
 
-#: includes/class-wsspg-admin.php:130
+#: includes/class-wsspg-admin.php:135
 msgid "Stripe Subscriptions"
 msgstr ""
 
-#: includes/class-wsspg-admin.php:174 includes/class-wsspg-admin.php:208
+#: includes/class-wsspg-admin.php:179 includes/class-wsspg-admin.php:193
+#: includes/class-wsspg-admin.php:221 includes/class-wsspg-admin.php:235
+#: includes/class-wsspg-admin.php:263 includes/class-wsspg-admin.php:277
+#: includes/class-wsspg-admin.php:305 includes/class-wsspg-admin.php:319
 #, php-format
 msgid "%s per %s"
 msgstr ""
 
-#: includes/class-wsspg-admin.php:180 includes/class-wsspg-admin.php:214
+#: includes/class-wsspg-admin.php:186 includes/class-wsspg-admin.php:228
+#: includes/class-wsspg-admin.php:270 includes/class-wsspg-admin.php:312
 #, php-format
 msgid "%s per %.0f %ss"
 msgstr ""
 
-#: includes/class-wsspg-admin.php:242
+#: includes/class-wsspg-admin.php:347
 #, php-format
 msgid "Stripe Subscriptions%s"
 msgstr ""
@@ -145,36 +149,36 @@ msgstr ""
 msgid "Pay {{amount}}"
 msgstr ""
 
-#: includes/class-wsspg-gateway.php:276
+#: includes/class-wsspg-gateway.php:288
 #, php-format
 msgid "Subscription authorized and captured: %s"
 msgstr ""
 
-#: includes/class-wsspg-gateway.php:311
+#: includes/class-wsspg-gateway.php:323
 #, php-format
 msgid "Payment authorized and captured: %s"
 msgstr ""
 
-#: includes/class-wsspg-gateway.php:322
+#: includes/class-wsspg-gateway.php:334
 #, php-format
 msgid "Payment authorized: %s"
 msgstr ""
 
-#: includes/class-wsspg-gateway.php:357
+#: includes/class-wsspg-gateway.php:369
 msgid ""
 "It is not possible to refund Bitcoin transactions through this interface."
 msgstr ""
 
-#: includes/class-wsspg-gateway.php:373
+#: includes/class-wsspg-gateway.php:385
 #, php-format
 msgid "Refunded %s%s%s%s: %s"
 msgstr ""
 
-#: includes/class-wsspg-gateway.php:426
+#: includes/class-wsspg-gateway.php:438
 msgid "There was an error processing your request."
 msgstr ""
 
-#: includes/class-wsspg-gateway.php:763 includes/class-wsspg-gateway.php:803
+#: includes/class-wsspg-gateway.php:775 includes/class-wsspg-gateway.php:815
 #, php-format
 msgid "Payment captured: %s"
 msgstr ""
@@ -354,10 +358,7 @@ msgid "%sCustomize"
 msgstr ""
 
 #: includes/settings-wsspg.php:273
-#, php-format
-msgid ""
-"Change the plugin's appearance. For a list of rewrite tags you can use, "
-"please consult the %sdocs%s."
+msgid "Change the plugin's appearance."
 msgstr ""
 
 #: includes/settings-wsspg.php:283
@@ -583,7 +584,7 @@ msgid ""
 "comma-separated list of values."
 msgstr ""
 
-#: includes/class-wsspg-subscriptions.php:298
+#: includes/class-wsspg-subscriptions.php:296
 msgid "Wsspg Subscription Product"
 msgstr ""
 

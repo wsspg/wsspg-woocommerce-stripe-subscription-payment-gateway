@@ -45,15 +45,15 @@ class Wsspg_Subscription_List_Table extends WP_List_Table {
 		
 		global $status, $page;
 		$this->fields = array(
-			'subscription' => __( 'Subscription', 'wsspg' ),
-			'customer'     => __( 'Customer', 'wsspg' ),
-			'plan'         => __( 'Plan', 'wsspg' ),
-			'created'      => __( 'Created', 'wsspg' ),
+			'subscription' => __( 'Subscription', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
+			'customer'     => __( 'Customer', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
+			'plan'         => __( 'Plan', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
+			'created'      => __( 'Created', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 		);
 		$this->subscriptions = Wsspg_Api::request( 'subscriptions', Wsspg::get_api_key('secret'), null, 'GET' );
 		parent::__construct( array(
-			'singular' => __( 'Subscription', 'wsspg' ),
-			'plural'   => __( 'Subscriptions', 'wsspg' ),
+			'singular' => __( 'Subscription', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
+			'plural'   => __( 'Subscriptions', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 			'ajax'     => false
 		));
 	}

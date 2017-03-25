@@ -443,7 +443,7 @@ class Wsspg {
 			if( empty( self::$log ) ) {
 				self::$log = new WC_Logger();
 			}
-			self::$log->add( 'wsspg', $message );
+			self::$log->add( 'wsspg-woocommerce-stripe-subscription-payment-gateway', $message );
 			if( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 				error_log( $message );
 			}

@@ -45,15 +45,15 @@ class Wsspg_Admin {
 		$wsspg_action_links_before = array(
 			'settings' => array(
 				'url' => esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout&section='.WSSPG_PLUGIN_ID ) ),
-				'title' => esc_attr( __( 'View Wsspg Settings', 'wsspg' ) ),
-				'text' => __( 'Settings', 'wsspg' ),
+				'title' => esc_attr( __( 'View Wsspg Settings', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) ),
+				'text' => __( 'Settings', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 			),
 		);
 		$wsspg_action_links_after = array(
 			'edit' => array(
 				'url' => esc_url( admin_url( 'plugin-editor.php?file='.WSSPG_PLUGIN_BASENAME.'&plugin='.WSSPG_PLUGIN_BASENAME.'' ) ),
-				'title' => esc_attr( __( 'Edit Wsspg', 'wsspg' ) ),
-				'text' => __( 'Edit', 'wsspg' ),
+				'title' => esc_attr( __( 'Edit Wsspg', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) ),
+				'text' => __( 'Edit', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 			),
 		);
 		$before_links = array();
@@ -81,20 +81,20 @@ class Wsspg_Admin {
 			$wsspg_meta_links = array(
 				'docs' => array(
 					'url' => esc_url( '/docs' ),
-					'title' => esc_attr( __( 'View Wsspg Documentation', 'wsspg' ) ),
-					'text' => __( 'Docs', 'wsspg' ),
+					'title' => esc_attr( __( 'View Wsspg Documentation', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) ),
+					'text' => __( 'Docs', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 					'enabled' => false,
 				),
 				'api' => array(
 					'url' => esc_url( 'https://dashboard.stripe.com/account/apikeys' ),
-					'title' => esc_attr( __( 'Get Stripe API Keys', 'wsspg' ) ),
-					'text' => __( 'Get Stripe API Keys', 'wsspg' ),
+					'title' => esc_attr( __( 'Get Stripe API Keys', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) ),
+					'text' => __( 'Get Stripe API Keys', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 					'enabled' => true,
 				),
 				'support' => array(
 					'url' => esc_url( '/support' ),
-					'title' => esc_attr( __( 'Get support for Wsspg', 'wsspg' ) ),
-					'text' => __( 'Support', 'wsspg' ),
+					'title' => esc_attr( __( 'Get support for Wsspg', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) ),
+					'text' => __( 'Support', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 					'enabled' => false,
 				),
 			);
@@ -131,10 +131,10 @@ class Wsspg_Admin {
 		
 		$page_hook = add_submenu_page(
 			'woocommerce',
-			__( 'Manage Stripe Subscriptions', 'wsspg' ), 
-			__( 'Stripe Subscriptions', 'wsspg' ),
+			__( 'Manage Stripe Subscriptions', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ), 
+			__( 'Stripe Subscriptions', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 			'manage_woocommerce',
-			'wsspg',
+			'wsspg-woocommerce-stripe-subscription-payment-gateway',
 			__CLASS__ . '::wsspg_admin_manage_stripe_subscriptions'
 		);
 	}
@@ -176,21 +176,21 @@ class Wsspg_Admin {
 				return $price;
 			} elseif( ! isset( $meta['_wsspg_stripe_plan_interval_count'][0] ) ) {
 				return sprintf(
-					esc_html( __( '%s per %s', 'wsspg' ) ),
+					esc_html( __( '%s per %s', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) ),
 					$price,
 					$meta['_wsspg_stripe_plan_interval'][0]
 				);
 			} else {
 				if( $meta['_wsspg_stripe_plan_interval_count'][0] > 1 ) {
 					return sprintf(
-						esc_html( __( '%s per %.0f %ss', 'wsspg' ) ),
+						esc_html( __( '%s per %.0f %ss', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) ),
 						$price,
 						$meta['_wsspg_stripe_plan_interval_count'][0],
 						$meta['_wsspg_stripe_plan_interval'][0]
 					);
 				} else {
 					return sprintf(
-						esc_html( __( '%s per %s', 'wsspg' ) ),
+						esc_html( __( '%s per %s', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) ),
 						$price,
 						$meta['_wsspg_stripe_plan_interval'][0]
 					);
@@ -218,21 +218,21 @@ class Wsspg_Admin {
 				return $price;
 			} elseif( ! isset( $meta['_wsspg_stripe_plan_interval_count'][0] ) ) {
 				return sprintf(
-					esc_html( __( '%s per %s', 'wsspg' ) ),
+					esc_html( __( '%s per %s', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) ),
 					$price,
 					$meta['_wsspg_stripe_plan_interval'][0]
 				);
 			} else {
 				if( $meta['_wsspg_stripe_plan_interval_count'][0] > 1 ) {
 					return sprintf(
-						esc_html( __( '%s per %.0f %ss', 'wsspg' ) ),
+						esc_html( __( '%s per %.0f %ss', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) ),
 						$price,
 						$meta['_wsspg_stripe_plan_interval_count'][0],
 						$meta['_wsspg_stripe_plan_interval'][0]
 					);
 				} else {
 					return sprintf(
-						esc_html( __( '%s per %s', 'wsspg' ) ),
+						esc_html( __( '%s per %s', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) ),
 						$price,
 						$meta['_wsspg_stripe_plan_interval'][0]
 					);
@@ -260,21 +260,21 @@ class Wsspg_Admin {
 				return $price;
 			} elseif( ! isset( $meta['_wsspg_stripe_plan_interval_count'][0] ) ) {
 				return sprintf(
-					esc_html( __( '%s per %s', 'wsspg' ) ),
+					esc_html( __( '%s per %s', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) ),
 					$price,
 					$meta['_wsspg_stripe_plan_interval'][0]
 				);
 			} else {
 				if( $meta['_wsspg_stripe_plan_interval_count'][0] > 1 ) {
 					return sprintf(
-						esc_html( __( '%s per %.0f %ss', 'wsspg' ) ),
+						esc_html( __( '%s per %.0f %ss', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) ),
 						$price,
 						$meta['_wsspg_stripe_plan_interval_count'][0],
 						$meta['_wsspg_stripe_plan_interval'][0]
 					);
 				} else {
 					return sprintf(
-						esc_html( __( '%s per %s', 'wsspg' ) ),
+						esc_html( __( '%s per %s', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) ),
 						$price,
 						$meta['_wsspg_stripe_plan_interval'][0]
 					);
@@ -302,21 +302,21 @@ class Wsspg_Admin {
 				return $subtotal;
 			} elseif( ! isset( $meta['_wsspg_stripe_plan_interval_count'][0] ) ) {
 				return sprintf(
-					esc_html( __( '%s per %s', 'wsspg' ) ),
+					esc_html( __( '%s per %s', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) ),
 					$subtotal,
 					$meta['_wsspg_stripe_plan_interval'][0]
 				);
 			} else {
 				if( $meta['_wsspg_stripe_plan_interval_count'][0] > 1 ) {
 					return sprintf(
-						esc_html( __( '%s per %.0f %ss', 'wsspg' ) ),
+						esc_html( __( '%s per %.0f %ss', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) ),
 						$subtotal,
 						$meta['_wsspg_stripe_plan_interval_count'][0],
 						$meta['_wsspg_stripe_plan_interval'][0]
 					);
 				} else {
 					return sprintf(
-						esc_html( __( '%s per %s', 'wsspg' ) ),
+						esc_html( __( '%s per %s', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) ),
 						$subtotal,
 						$meta['_wsspg_stripe_plan_interval'][0]
 					);
@@ -344,7 +344,7 @@ class Wsspg_Admin {
 		?>
 		<div class="wrap">
 		<h2><?php echo sprintf(
-			__( 'Stripe Subscriptions%s', 'wsspg' ),
+			__( 'Stripe Subscriptions%s', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 			$search
 		); ?></h2>
 		<?php $sslt = new Wsspg_Subscription_List_Table(); ?>

@@ -153,10 +153,10 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 		$this->save_payment_method = $this->get_option( 'save_payment_method', 'enabled' ) === 'enabled' ? true : false;
 		$this->title = $this->get_option( 'title', WSSPG_PLUGIN_TITLE );
 		$this->description = $this->get_option( 'description', NULL );
-		$this->order_button_text = $this->get_option( 'order_button_text', __( 'Place Order', 'wsspg' ) );
+		$this->order_button_text = $this->get_option( 'order_button_text', __( 'Place Order', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) );
 		$this->stripe_checkout_enabled = $this->get_option( 'stripe_checkout_enabled', 'disabled' ) === 'enabled' ? true : false;
 		$this->stripe_checkout_remember_me = $this->get_option( 'stripe_checkout_remember_me', 'enabled' ) === 'enabled' ? true : false;
-		$this->stripe_checkout_button = $this->get_option( 'stripe_checkout_button', __( 'Pay {{amount}}', 'wsspg' ) );
+		$this->stripe_checkout_button = $this->get_option( 'stripe_checkout_button', __( 'Pay {{amount}}', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) );
 		$this->stripe_checkout_locale = $this->get_option( 'stripe_checkout_locale', 'en' );
 		$this->stripe_checkout_thumbnail = $this->get_option( 'stripe_checkout_thumbnail', '' );
 		$this->bitcoin = $this->get_option( 'bitcoin', 'disabled' ) === 'enabled' ? true : false;
@@ -285,7 +285,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 						$subscription->id
 					);
 					$order->add_order_note( sprintf(
-						__( 'Subscription authorized and captured: %s', 'wsspg' ),
+						__( 'Subscription authorized and captured: %s', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 						$view_sub_url
 					) );
 					$to_pay['subscriptions'] += $cart_item['line_total'] + ( $cart_item['line_total'] * ( $tax / 100 ) );
@@ -320,7 +320,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 							1
 						);
 						$order->add_order_note( sprintf(
-							__( 'Payment authorized and captured: %s', 'wsspg' ),
+							__( 'Payment authorized and captured: %s', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 							$view_charge_url
 						) );
 						$order->payment_complete( $charge->id );
@@ -331,7 +331,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 							$charge->id
 						);
 						$order->add_order_note( sprintf(
-							__( 'Payment authorized: %s', 'wsspg' ),
+							__( 'Payment authorized: %s', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 							$view_charge_url
 						) );
 					}
@@ -367,7 +367,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 			if( $charge->source->object === 'bitcoin_receiver' ) {
 				throw new Exception( __(
 					'It is not possible to refund Bitcoin transactions through this interface.',
-					'wsspg'
+					'wsspg-woocommerce-stripe-subscription-payment-gateway'
 				) );
 			} else {
 				$params = array(
@@ -382,7 +382,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 				if( isset( $refund  ) ) {
 					$order = wc_get_order( $order_id );
 					$order->add_order_note( sprintf(
-						__( 'Refunded %s%s%s%s: %s', 'wsspg' ),
+						__( 'Refunded %s%s%s%s: %s', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 						'<strong>',
 						(string) get_woocommerce_currency_symbol(),
 						(string) $this->wsspg_format_currency_unit( $refund->amount, $refund->currency ),
@@ -435,7 +435,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 		if( isset( $customer ) ) {
 			if( !isset( $_POST['wsspg-data'] ) ) {
 				//	data is missing or null.
-				wc_add_notice( __( 'There was an error processing your request.', 'wsspg' ), 'error' );
+				wc_add_notice( __( 'There was an error processing your request.', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ), 'error' );
 				return array(
 					'result'   => 'failure'
 				);
@@ -506,7 +506,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 		$section = isset( $_GET['section'] ) && $_GET['section'] === WSSPG_PLUGIN_ID ? true : false ;
 		if( $section && $screen->id === 'woocommerce_page_wc-settings' ) {
 			echo '<div class="notice notice-warning"><p>';
-			echo __( 'Put admin notices here...', 'wsspg' );
+			echo __( 'Put admin notices here...', 'wsspg-woocommerce-stripe-subscription-payment-gateway' );
 			echo '</p></div>';
 		}
 		*/
@@ -772,7 +772,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 						'_wsspg_order_uncaptured_charge'
 					);
 					$order->add_order_note( sprintf(
-						__( 'Payment captured: %s', 'wsspg' ),
+						__( 'Payment captured: %s', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 						$view_charge_url
 					) );
 					$order->payment_complete( $charge->id );
@@ -812,7 +812,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 						'_wsspg_order_uncaptured_charge'
 					);
 					$order->add_order_note( sprintf(
-						__( 'Payment captured: %s', 'wsspg' ),
+						__( 'Payment captured: %s', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 						$view_charge_url
 					) );
 					$order->payment_complete( $charge->id );

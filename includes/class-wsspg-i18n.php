@@ -27,9 +27,9 @@ class Wsspg_i18n {
 	 */
 	public static function load_textdomain() {
 		
-		load_textdomain( 'wsspg', WP_LANG_DIR . '/wsspg/wsspg-' . get_locale() . '.mo' );
+		load_textdomain( 'wsspg-woocommerce-stripe-subscription-payment-gateway', WP_LANG_DIR . '/wsspg/wsspg-' . get_locale() . '.mo' );
 		load_plugin_textdomain(
-			'wsspg',
+			'wsspg-woocommerce-stripe-subscription-payment-gateway',
 			false,
 			'wsspg/i18n/languages/'
 		);
