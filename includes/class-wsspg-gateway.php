@@ -340,6 +340,11 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 					return array( 'result' => 'success', 'redirect' => $this->get_return_url( $order ) );
 				}
 			} else {
+				update_post_meta(
+					$order_id,
+					'_wsspg_order_funds_captured',
+					1
+				);
 				$order->payment_complete();
 				//	dump the cart contents and return success.
 				WC()->cart->empty_cart();
