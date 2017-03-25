@@ -4,7 +4,7 @@ Donate link: https://github.com/wsspg
 Tags: wsspg, stripe, subscription, subscriptions, woocommerce, pci, dss,
 Requires at least: 4.5.3
 Tested up to: 4.7.3
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -59,6 +59,9 @@ If you need a helping hand, you'll find one on the [support forums](https://word
 3. The subscription product type.
 
 == Changelog ==
+
+= 1.0.2 - 2017-03-25 =
+* Fix - A few release bugs.
 
 = 1.0.1 - 2017-03-25 =
 * Add - Support for subscription tax rates.

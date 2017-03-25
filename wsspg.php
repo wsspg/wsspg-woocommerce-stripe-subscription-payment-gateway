@@ -4,14 +4,14 @@
  *
  * @package    Wsspg
  * @author     wsspg <wsspg@mail.com>
- * @version    1.0.1
+ * @version    1.0.2
  * @license    https://www.gnu.org/licenses/gpl-3.0.txt
  * @copyright  (c) 2016 https://github.com/wsspg
  *
  * @wordpress-plugin
  * Plugin Name:        WooCommerce Stripe Subscription Payment Gateway
  * Plugin URI:         https://github.com/wsspg/wsspg-woocommerce-stripe-subscription-payment-gateway
- * Version:            1.0.1
+ * Version:            1.0.2
  * Author:             Wsspg
  * Author URI:         https://github.com/wsspg
  * Description:        Accept <strong>Credit Cards</strong>, <strong>Bitcoin</strong>, <strong>Alipay</strong>, and connect your <strong>WooCommerce</strong> store to <strong>Stripe</strong>'s Subscription API.
