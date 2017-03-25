@@ -750,7 +750,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 		
 		if( ! get_post_meta( $order_id, '_wsspg_order_funds_captured', true ) ) {
 			$uncaptured = get_post_meta( $order_id, '_wsspg_order_uncaptured_charge', true );
-			if( isset( $uncaptured ) ) {
+			if( isset( $uncaptured ) && !is_empty( $uncaptured ) ) {
 				$charge = Wsspg_API::request(
 					"charges/{$uncaptured}/capture",
 					$this->key
@@ -790,7 +790,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 		
 		if( ! get_post_meta( $order_id, '_wsspg_order_funds_captured', true ) ) {
 			$uncaptured = get_post_meta( $order_id, '_wsspg_order_uncaptured_charge', true );
-			if( isset( $uncaptured ) ) {
+			if( isset( $uncaptured ) && !is_empty( $uncaptured ) ) {
 				$charge = Wsspg_API::request(
 					"charges/{$uncaptured}/capture",
 					$this->key

@@ -56,7 +56,7 @@
 			//	if Wsspg is not the selected method, return true and
 			//	bypass this method.
 			//	
-			if( payment_method !== 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) {
+			if( payment_method !== 'wsspg' ) {
 				
 				return true;
 				

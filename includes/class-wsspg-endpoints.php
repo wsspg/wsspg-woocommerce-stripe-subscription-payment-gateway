@@ -204,7 +204,8 @@ class Wsspg_Endpoints {
 								}
 							}
 						}
-						update_user_meta( $uid, WSSPG_PLUGIN_MODE.'_subscriptions', $user_subscriptions );
+						// TODO - this was causing a database error...
+						/* update_user_meta( $uid, WSSPG_PLUGIN_MODE.'_subscriptions', $user_subscriptions ); */
 					}
 				}
 			}
