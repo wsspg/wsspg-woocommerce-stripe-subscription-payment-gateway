@@ -53,7 +53,7 @@ if( ! defined( 'ABSPATH' ) ) exit; // exit if accessed directly.
 	<?php endif; ?>
 	</td>
 	<td class="plan-amount" data-title="<?php echo esc_attr( __( 'Amount', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) ); ?>">
-	<?php echo '<strong>'.get_woocommerce_currency_symbol( strtoupper( $subscription->plan->currency ) ) . $subscription->plan->amount / 100 . '</strong>'; ?>
+	<?php echo '<strong>'.get_woocommerce_currency_symbol( strtoupper( $subscription->plan->currency ) ) . preg_replace( '/.00/', '', sprintf( '%0.2f', ( ( $subscription->plan->amount / 100 ) * ( 100 + $subscription->tax_percent ) ) / 100 ) ) . '</strong>'; ?>
 	<?php if( $subscription->plan->interval_count > 1 ): ?>
 	<?php echo ' '.__( 'every', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ).' <strong>'.$subscription->plan->interval_count.' '.$subscription->plan->interval.'s</strong>'; ?>
 	<?php else : ?>
