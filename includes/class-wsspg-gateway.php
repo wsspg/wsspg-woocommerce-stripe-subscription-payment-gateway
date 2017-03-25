@@ -252,6 +252,17 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 			foreach( $cart as $cart_item_key => $cart_item ) {
 				$item = $cart_item['data'];
 				if( $item->get_type() === 'wsspg_subscription' ) {
+					// support for subscription tax percent
+					$tax_percent = 0;
+					$tax = 0;
+					$_product = $order->get_product_from_item( $cart_item );
+					if( $_product->is_taxable() ) {
+						$_tax = new WC_Tax();
+						$product_tax_class = $_product->get_tax_class();
+        				$rates =  array_shift( $_tax->get_rates( $product_tax_class) );
+						$tax = round( array_shift( $rates ) );
+						$tax_percent = $tax;
+					}
 					//	subscription payment source must be reusable.
 					if( $data['token']['object'] === 'bitcoin_receiver' ) throw new Exception();
 					//	mixed carts are capture only.
@@ -263,6 +274,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 						"customer" => $customer->stripe,
 						"plan" => $item->get_plan_id(),
 						"quantity" => $cart_item['quantity'],
+						"tax_percent" => $tax_percent,
 						"metadata" => $metadata
 					);
 					$subscription = Wsspg_API::request( 'subscriptions', $this->key, $params );
@@ -276,7 +288,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 						__( 'Subscription authorized and captured: %s', 'wsspg' ),
 						$view_sub_url
 					) );
-					$to_pay['subscriptions'] += $cart_item['line_total'];
+					$to_pay['subscriptions'] += $cart_item['line_total'] + ( $cart_item['line_total'] * ( $tax / 100 ) );
 					$customer->has_subscribed_to( $subscription );
 				} else {
 					$to_pay['other'] += $cart_item['line_total'];

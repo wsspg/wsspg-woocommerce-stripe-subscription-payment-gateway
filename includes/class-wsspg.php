@@ -192,6 +192,20 @@ class Wsspg {
 			20,
 			3
 		);
+		$this->loader->add_filter(
+			'woocommerce_cart_item_subtotal',
+			$plugin_admin,
+			'wsspg_woocommerce_cart_item_subtotal',
+			20,
+			3
+		);
+		$this->loader->add_filter(
+			'woocommerce_order_formatted_line_subtotal',
+			$plugin_admin,
+			'wsspg_woocommerce_order_formatted_line_subtotal',
+			20,
+			3
+		);
 	}
 	
 	/**

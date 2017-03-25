@@ -181,12 +181,20 @@ class Wsspg_Admin {
 					$meta['_wsspg_stripe_plan_interval'][0]
 				);
 			} else {
-				return sprintf(
-					esc_html( __( '%s per %.0f %ss', 'wsspg' ) ),
-					$price,
-					$meta['_wsspg_stripe_plan_interval_count'][0],
-					$meta['_wsspg_stripe_plan_interval'][0]
-				);
+				if( $meta['_wsspg_stripe_plan_interval_count'][0] > 1 ) {
+					return sprintf(
+						esc_html( __( '%s per %.0f %ss', 'wsspg' ) ),
+						$price,
+						$meta['_wsspg_stripe_plan_interval_count'][0],
+						$meta['_wsspg_stripe_plan_interval'][0]
+					);
+				} else {
+					return sprintf(
+						esc_html( __( '%s per %s', 'wsspg' ) ),
+						$price,
+						$meta['_wsspg_stripe_plan_interval'][0]
+					);
+				}
 			}
 		}
 		return $price;
@@ -215,15 +223,107 @@ class Wsspg_Admin {
 					$meta['_wsspg_stripe_plan_interval'][0]
 				);
 			} else {
-				return sprintf(
-					esc_html( __( '%s per %.0f %ss', 'wsspg' ) ),
-					$price,
-					$meta['_wsspg_stripe_plan_interval_count'][0],
-					$meta['_wsspg_stripe_plan_interval'][0]
-				);
+				if( $meta['_wsspg_stripe_plan_interval_count'][0] > 1 ) {
+					return sprintf(
+						esc_html( __( '%s per %.0f %ss', 'wsspg' ) ),
+						$price,
+						$meta['_wsspg_stripe_plan_interval_count'][0],
+						$meta['_wsspg_stripe_plan_interval'][0]
+					);
+				} else {
+					return sprintf(
+						esc_html( __( '%s per %s', 'wsspg' ) ),
+						$price,
+						$meta['_wsspg_stripe_plan_interval'][0]
+					);
+				}
 			}
 		}
 		return $price;
+	}
+	
+	/**
+	 * Filter checkout cart item line subtotal html.
+	 *
+	 * @since   1.0.1
+	 * @param   string
+	 * @param   object
+	 * @param   string
+	 * @return  string
+	 */
+	public function wsspg_woocommerce_cart_item_subtotal( $price, $item, $item_key ) {
+		
+		$item = $item['data'];
+		if( ! empty( $item ) && $item->is_type( 'wsspg_subscription' ) ) {
+			$meta = get_post_meta( $item->post->ID );
+			if( ! isset( $meta['_wsspg_stripe_plan_interval'][0] ) ) {
+				return $price;
+			} elseif( ! isset( $meta['_wsspg_stripe_plan_interval_count'][0] ) ) {
+				return sprintf(
+					esc_html( __( '%s per %s', 'wsspg' ) ),
+					$price,
+					$meta['_wsspg_stripe_plan_interval'][0]
+				);
+			} else {
+				if( $meta['_wsspg_stripe_plan_interval_count'][0] > 1 ) {
+					return sprintf(
+						esc_html( __( '%s per %.0f %ss', 'wsspg' ) ),
+						$price,
+						$meta['_wsspg_stripe_plan_interval_count'][0],
+						$meta['_wsspg_stripe_plan_interval'][0]
+					);
+				} else {
+					return sprintf(
+						esc_html( __( '%s per %s', 'wsspg' ) ),
+						$price,
+						$meta['_wsspg_stripe_plan_interval'][0]
+					);
+				}
+			}
+		}
+		return $price;
+	}
+	
+	/**
+	 * Filter order details line subtotal html.
+	 *
+	 * @since   1.0.1
+	 * @param   string
+	 * @param   object
+	 * @return  string
+	 */
+	public function wsspg_woocommerce_order_formatted_line_subtotal( $subtotal, $item ) {
+		$_product_id = array_shift( $item['item_meta']['_product_id'] );
+		$_product = wc_get_product( $_product_id );
+		$item = $_product;
+		if( ! empty( $item ) && $item->is_type( 'wsspg_subscription' ) ) {
+			$meta = get_post_meta( $item->post->ID );
+			if( ! isset( $meta['_wsspg_stripe_plan_interval'][0] ) ) {
+				return $subtotal;
+			} elseif( ! isset( $meta['_wsspg_stripe_plan_interval_count'][0] ) ) {
+				return sprintf(
+					esc_html( __( '%s per %s', 'wsspg' ) ),
+					$subtotal,
+					$meta['_wsspg_stripe_plan_interval'][0]
+				);
+			} else {
+				if( $meta['_wsspg_stripe_plan_interval_count'][0] > 1 ) {
+					return sprintf(
+						esc_html( __( '%s per %.0f %ss', 'wsspg' ) ),
+						$subtotal,
+						$meta['_wsspg_stripe_plan_interval_count'][0],
+						$meta['_wsspg_stripe_plan_interval'][0]
+					);
+				} else {
+					return sprintf(
+						esc_html( __( '%s per %s', 'wsspg' ) ),
+						$subtotal,
+						$meta['_wsspg_stripe_plan_interval'][0]
+					);
+				}
+			}
+		}
+		return $subtotal;
 	}
 	
 	/**
