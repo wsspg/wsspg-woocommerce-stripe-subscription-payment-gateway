@@ -47,7 +47,7 @@ if( ! defined( 'ABSPATH' ) ) exit; // exit if accessed directly.
 	<?php if( isset( $subscription->metadata->product_id ) ): ?>
 		<?php $product = wc_get_product( $subscription->metadata->product_id ); ?>
 		<a href="<?php echo get_permalink( $subscription->metadata->product_id ); ?>">
-		<?php echo $product->post->post_title; ?>
+		<?php echo $product->get_name(); ?>
 		</a>
 		<?php echo $quantity; ?>
 	<?php else: ?>

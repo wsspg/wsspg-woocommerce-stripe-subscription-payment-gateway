@@ -195,7 +195,8 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 			global $woocommerce;
 			//	decode the form.
 			//	throw an error if the data has an errors flag.
-			$data = json_decode( stripslashes( $_POST['wsspg-data'] ), true );
+			$raw_data = stripslashes( $_POST['wsspg-data'] );
+			$data = json_decode( $raw_data, true );
 			if( isset( $data['error'] ) ) throw new Exception();
 			//	grab an order and a customer.
 			//	throw an error if either is not set.
@@ -236,7 +237,9 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 			if( ! isset( $customer->source ) ) throw new Exception();
 			if( $data['save'] ) $customer->save_source();
 			//	Bitcoin payments are captured immediately.
-			if( $data['token']['object'] === 'bitcoin_receiver' ) $this->payment_action = 'capture';
+			if( isset( $data['token']['object'] ) ) {
+				if( $data['token']['object'] === 'bitcoin_receiver' ) $this->payment_action = 'capture';
+			}
 			/* ------------- SUBSCRIPTIONS LOGIC --------------- */
 			//	grab the cart, declare some flags.
 			$cart = $woocommerce->cart->get_cart();
@@ -255,16 +258,18 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 					// support for subscription tax percent
 					$tax_percent = 0;
 					$tax = 0;
-					$_product = $order->get_product_from_item( $cart_item );
+					$_product = wc_get_product( $cart_item['product_id'] );
 					if( $_product->is_taxable() ) {
 						$_tax = new WC_Tax();
 						$product_tax_class = $_product->get_tax_class();
-        				$rates =  array_shift( $_tax->get_rates( $product_tax_class) );
+        				$rates =  array_shift( $_tax->get_rates( $product_tax_class ) );
 						$tax = round( array_shift( $rates ) );
 						$tax_percent = $tax;
 					}
 					//	subscription payment source must be reusable.
-					if( $data['token']['object'] === 'bitcoin_receiver' ) throw new Exception();
+					if( isset( $data['token']['object'] ) ) {
+						if( $data['token']['object'] === 'bitcoin_receiver' ) throw new Exception();
+					}
 					//	mixed carts are capture only.
 					$this->payment_action = 'capture';
 					$roles = $customer->roles( $item );
@@ -853,7 +858,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 */
 	public function wsspg_payment_gateway_woocommerce_coupon_get_discount_amount( $discount, $discounting_amount, $cart_item, $single ) {
 		
-		if( $cart_item['data']->product_type === 'wsspg_subscription' ) {
+		if( $cart_item['data']->get_type === 'wsspg_subscription' ) {
 			$discount = 0;
 		}
 		return $discount;

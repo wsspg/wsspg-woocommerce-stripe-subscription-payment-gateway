@@ -31,8 +31,17 @@ class WC_Product_Wsspg_Subscription extends WC_Product_Simple {
 	public function __construct( $product ) {
 		
 		parent::__construct( $product );
-		$this->product_type = 'wsspg_subscription';
 		$this->product_custom_fields = get_post_meta( $this->id );
+	}
+	
+	/**
+	 * Declare the product type.
+	 *
+	 * @since   1.0.4
+	 * @return  string
+	 */
+	public function get_type() {
+		return 'wsspg_subscription';
 	}
 	
 	/**
