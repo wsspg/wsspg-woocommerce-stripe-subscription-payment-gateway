@@ -140,13 +140,14 @@ class Wsspg_Subscription_List_Table extends WP_List_Table {
 					$user_ps
 				),
 				'plan' => sprintf(
-					'<a href="https://dashboard.stripe.com/plans/%s" target="_blank">%s</a><p>%s</p>',
+					'<a href="https://dashboard.stripe.com/plans/%s" target="_blank">%s</a>%s<p>%s</p>',
 					$subscription->plan->id,
 					$subscription->plan->name,
+					$subscription->quantity > 1 ? '<strong> x ' . $subscription->quantity . '</strong>' : '' ,
 					sprintf(
 						'%s%.02f per %s %s(s)',
 						get_woocommerce_currency_symbol( strtoupper( $subscription->plan->currency ) ),
-						$subscription->plan->amount / 100,
+						( $subscription->plan->amount * $subscription->quantity ) / 100,
 						$subscription->plan->interval_count,
 						$subscription->plan->interval
 					)

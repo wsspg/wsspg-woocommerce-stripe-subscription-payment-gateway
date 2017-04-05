@@ -216,7 +216,7 @@ class Wsspg_Subscriptions {
 		if( $is_purchasable ) {
 			global $user_ID;
 			$user = wp_get_current_user();
-			$product = wc_get_product( $object->get_id() );
+			$product = wc_get_product( version_compare( WC_VERSION, '3.0.0', '<' ) ? $object->id : $object->get_id() );
 			if( $product->is_type( 'wsspg_subscription' ) ) {
 				if( ! $this->enabled ) return false;
 				if( '' == $user_ID && $this->settings['guest_subscriptions'] !== 'enabled' ) return false;
@@ -241,8 +241,8 @@ class Wsspg_Subscriptions {
 	 */
 	public function wsspg_subscriptions_woocommerce_is_sold_individually( $is_sold_individually, $object ) {
 		
-		$id = $object->get_id();
-		$type = $object->get_type();
+		$id = version_compare( WC_VERSION, '3.0.0', '<' ) ? $object->id : $object->get_id();
+		$type = version_compare( WC_VERSION, '3.0.0', '<' ) ? $object->product_type : $object->get_type();
 		$ems = get_post_meta( $id, '_wsspg_enable_multiple_subscriptions', true );
 		if( $type === 'wsspg_subscription' && ! $is_sold_individually && $ems !== 'yes' ) return true;
 		return $is_sold_individually;

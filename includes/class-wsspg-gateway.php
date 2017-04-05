@@ -249,13 +249,32 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 				"other" => 0
 			);
 			//	loop through the cart.
+			//	if the product is a subscription, flag the subscription amount.
+			foreach( $cart as $cart_item_key => $cart_item ) {
+				$item = $cart_item['data'];
+				if( $item->get_type() === 'wsspg_subscription' ) {
+					$to_pay['subscriptions'] += $cart_item['line_total'] + $cart_item['line_subtotal_tax'];
+				}
+			}
+			//	if the total amount to pay (excluding subscriptions) is less than zero,
+			//	throw an exception.
+			$amount = $this->wsspg_get_zero_decimal( $to_pay['total'] - $to_pay['subscriptions'] );
+			if( $amount > 0 ) {
+				if( ! $this->wsspg_minimum_order( $amount ) ) {
+					throw new Exception( __(
+						'The cart total does not meet Stripe\'s minimum order requirement.',
+						'wsspg-woocommerce-stripe-subscription-payment-gateway'
+					) );
+				}
+			}
+			//	loop through the cart.
 			//	if the product is a subscription, sign the customer up to it.
 			//	throw an exception if the subscription comes back null.
 			//	flag the subscription amount.
 			foreach( $cart as $cart_item_key => $cart_item ) {
 				$item = $cart_item['data'];
 				if( $item->get_type() === 'wsspg_subscription' ) {
-					// support for subscription tax percent
+					//	support for subscription tax percent
 					$tax_percent = 0;
 					$tax = 0;
 					$_product = wc_get_product( $cart_item['product_id'] );
@@ -268,7 +287,12 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 					}
 					//	subscription payment source must be reusable.
 					if( isset( $data['token']['object'] ) ) {
-						if( $data['token']['object'] === 'bitcoin_receiver' ) throw new Exception();
+						if( $data['token']['object'] === 'bitcoin_receiver' ) {
+							throw new Exception( __(
+								'Payment sources for subscription products must be reusable.',
+								'wsspg-woocommerce-stripe-subscription-payment-gateway'
+							) );
+						}
 					}
 					//	mixed carts are capture only.
 					$this->payment_action = 'capture';
@@ -293,16 +317,11 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 						__( 'Subscription authorized and captured: %s', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 						$view_sub_url
 					) );
-					$to_pay['subscriptions'] += $cart_item['line_total'] + ( $cart_item['line_total'] * ( $tax / 100 ) );
 					$customer->has_subscribed_to( $subscription );
-				} else {
-					$to_pay['other'] += $cart_item['line_total'];
 				}
 			}
 			/* ------------------------------------------------- */
-			$amount = $this->wsspg_get_zero_decimal( $to_pay['total'] - $to_pay['subscriptions'] );
 			if( $amount > 0 ) {
-				if( ! $this->wsspg_minimum_order( $amount ) ) throw new Exception();
 				$params = array(
 					"amount" => $amount,
 					"currency" => $order->order_currency,

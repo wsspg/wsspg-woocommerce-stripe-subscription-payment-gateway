@@ -47,7 +47,11 @@ if( ! defined( 'ABSPATH' ) ) exit; // exit if accessed directly.
 	<?php if( isset( $subscription->metadata->product_id ) ): ?>
 		<?php $product = wc_get_product( $subscription->metadata->product_id ); ?>
 		<a href="<?php echo get_permalink( $subscription->metadata->product_id ); ?>">
-		<?php echo $product->get_name(); ?>
+		<?php if( version_compare( WC_VERSION, '3.0.0', '<' ) ) : ?>
+			<?php echo $product->post->post_title; ?>
+		<?php else: ?>
+			<?php echo $product->get_name(); ?>
+		<?php endif; ?>
 		</a>
 		<?php echo $quantity; ?>
 	<?php else: ?>
@@ -55,7 +59,7 @@ if( ! defined( 'ABSPATH' ) ) exit; // exit if accessed directly.
 	<?php endif; ?>
 	</td>
 	<td class="plan-amount" data-title="<?php echo esc_attr( __( 'Amount', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) ); ?>">
-	<?php echo '<strong>'.get_woocommerce_currency_symbol( strtoupper( $subscription->plan->currency ) ) . preg_replace( '/.00/', '', sprintf( '%0.2f', ( ( $subscription->plan->amount / 100 ) * ( 100 + $subscription->tax_percent ) ) / 100 ) ) . '</strong>'; ?>
+	<?php echo '<strong>'.get_woocommerce_currency_symbol( strtoupper( $subscription->plan->currency ) ) . preg_replace( '/.00/', '', sprintf( '%0.2f', ( ( ( $subscription->plan->amount * $subscription->quantity ) / 100 ) * ( 100 + $subscription->tax_percent ) ) / 100 ) ) . '</strong>'; ?>
 	<?php if( $subscription->plan->interval_count > 1 ): ?>
 	<?php echo ' '.__( 'every', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ).' <strong>'.$subscription->plan->interval_count.' '.$subscription->plan->interval.'s</strong>'; ?>
 	<?php else : ?>

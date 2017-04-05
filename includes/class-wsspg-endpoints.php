@@ -150,6 +150,50 @@ class Wsspg_Endpoints {
 	}
 	
 	/**
+	 * Returns a non-unique array of user roles from the metadata of
+	 * a list of subscriptions.
+	 *
+	 * @since   1.0.4
+	 * @param   object
+	 * @return  array
+	 */
+	private function get_subscribed_roles( $subscriptions = null ) {
+		
+		$purchased_roles = array();
+		if( isset( $subscriptions->data ) ) {
+			foreach( $subscriptions->data as $susbcription ) {
+				if( isset( $susbcription->metadata->roles ) ) {
+					$roles = explode( ',', $susbcription->metadata->roles );
+					foreach( $roles as $role ) {
+						$purchased_roles[] = $role;
+					}
+				}
+			}
+		}
+		return $purchased_roles;
+	}
+	
+	/**
+	 * Returns a non-unique array of subscribed plans from a list of subscriptions.
+	 *
+	 * @since   1.0.4
+	 * @param   object
+	 * @return  array
+	 */
+	private function get_subscribed_plans( $subscriptions = null ) {
+		
+		$subscribed_plans = array();
+		if( isset( $subscriptions->data ) ) {
+			foreach( $subscriptions->data as $susbcription ) {
+				if( isset( $susbcription->plan->id ) ) {
+					$subscribed_plans[] = $susbcription->plan->id;
+				}
+			}
+		}
+		return $subscribed_plans;
+	}
+	
+	/**
 	 * Endpoint content.
 	 *
 	 * - IF subscriptions are enabled.
@@ -166,50 +210,100 @@ class Wsspg_Endpoints {
 	public function wsspg_endpoints_woocommerce_account_wsspg_custom_endpoint_endpoint() {
 		
 		if( Wsspg::subscriptions_enabled() && isset( $this->mode ) && $this->mode !== 'disabled' ) {
+			
 			$uid = get_current_user_id();
-			if( ! empty( $_POST[ 'action' ] ) ) {
-				if( 'wsspg_nonce' !== $_POST[ 'action' ] ) return;
-				if( empty( $_POST['_wpnonce'] ) ) return;
-				if( ! wp_verify_nonce( $_POST['_wpnonce'], 'wsspg_nonce' ) ) return;
-				foreach( $_POST as $key => $value ) {
-					if( preg_match( '/wsspg_subscription_id_/', $key ) ) {
-						$subscription_id = preg_replace( '/wsspg_subscription_id_/', '', $key );
-						$response = Wsspg_Api::request( "subscriptions/{$subscription_id}", Wsspg::get_api_key('secret'), null, 'DELETE' );
-						if( isset( $response->metadata->roles ) ) {
-							$user = new WP_User( $uid );
-							$roles = explode( ',', $response->metadata->roles );
-							foreach( $roles as $key => $value ) if( $value !== 'administrator' ) $user->remove_role( $value );
-						}
-					}
-				}
-			}
+			$user = new WP_User( $uid );
 			$stripe = get_user_meta( $uid, WSSPG_PLUGIN_MODE.'_stripe_id', true );
-			if( ! empty( $stripe )  ) {
+			if( isset( $stripe ) ) {
 				$params = array(
 					"customer" => $stripe,
 				);
 				$subscriptions = Wsspg_Api::request( 'subscriptions', Wsspg::get_api_key('secret'), $params, 'GET' );
-				if( isset( $subscriptions ) ) {
-					if( ! empty( $_POST[ 'action' ] ) ) {
-						$meta = maybe_unserialize( get_user_meta( $uid, WSSPG_PLUGIN_MODE.'_subscriptions', true ) );
-						$user_subscriptions = array();
-						foreach( $subscriptions->data as $subscription ) {
-							if( empty( $meta ) ) {
-								$user_subscriptions[] = $subscription->plan->id;
-							} else {
-								foreach( $meta as $key => $value ) {
-									if( $value === $subscription->plan->id ) {
-										$user_subscriptions[] = $value;
+				if( ! empty( $_POST[ 'action' ] ) ) {
+					if( 'wsspg_nonce' !== $_POST[ 'action' ] ) return;
+					if( empty( $_POST['_wpnonce'] ) ) return;
+					if( ! wp_verify_nonce( $_POST['_wpnonce'], 'wsspg_nonce' ) ) return;
+					foreach( $_POST as $key => $value ) {
+						if( preg_match( '/wsspg_subscription_id_/', $key ) ) {
+							$subscription_id = preg_replace( '/wsspg_subscription_id_/', '', $key );
+							$subscription = Wsspg_Api::request( "subscriptions/{$subscription_id}", Wsspg::get_api_key('secret'), null, 'DELETE' );
+							if( isset( $subscription ) ) {
+								$subscriptions = Wsspg_Api::request( 'subscriptions', Wsspg::get_api_key('secret'), $params, 'GET' );
+								if( isset( $subscription->metadata->roles ) ) {
+									$cancel_roles = explode( ',', $subscription->metadata->roles );
+									foreach( $cancel_roles as $cancel_role ) {
+										if( $cancel_role !== 'administrator' ) {
+											if( in_array( $cancel_role, $user->roles ) ) {
+												if( ! in_array( $cancel_role, $this->get_subscribed_roles( $subscriptions ) ) ) {
+													$user->remove_role( $cancel_role );
+												}
+											}
+										}
+									}
+								}
+								if( ! in_array( $subscription->plan->id, $this->get_subscribed_plans( $subscriptions ) ) ) {
+									$meta_subscriptions = array_unique(
+										maybe_unserialize(
+											get_user_meta( $uid, WSSPG_PLUGIN_MODE.'_subscriptions', true )
+										)
+									);
+									if( ( $key = array_search( $subscription->plan->id, $meta_subscriptions ) ) !== false ) {
+										unset( $meta_subscriptions[ $key ] );
+										update_user_meta( $uid, WSSPG_PLUGIN_MODE.'_subscriptions', $meta_subscriptions );
 									}
 								}
 							}
 						}
-						// TODO - this was causing a database error...
-						/* update_user_meta( $uid, WSSPG_PLUGIN_MODE.'_subscriptions', $user_subscriptions ); */
 					}
 				}
+				include WSSPG_PLUGIN_DIR_PATH . 'templates/myaccount/my-subscriptions.php';
+				// ------------------------------------------------------------------------------- //
+				$user_roles = array();
+				echo 'USER ROLES:<ul>';
+				foreach( $user->roles as $user_role_key => $user_role_value ) {
+						echo "<li>{$user_role_value}</li>";
+						$user_roles[] = $user_role_value;
+				}
+				echo '</ul>';
+				$stripe = get_user_meta( $uid, WSSPG_PLUGIN_MODE.'_stripe_id', true );
+				if( ! empty( $stripe )  ) {
+					$params = array(
+						"customer" => $stripe,
+					);
+					$subscriptions = Wsspg_Api::request( 'subscriptions', Wsspg::get_api_key('secret'), $params, 'GET' );
+				}
+				$api_subs_array = array();
+				$api_roles_array = array();
+				echo 'API:<ul>';
+				foreach( $subscriptions->data as $susbcription_list_item => $susbcription_list_item_value ) {
+						echo "<li>{$susbcription_list_item_value->plan->id}";
+						$api_subs_array[] = $susbcription_list_item_value->plan->id;
+						if( isset( $susbcription_list_item_value->metadata->roles ) ) {
+							echo " (";
+							$i = 0;
+							$susbcription_roles = explode( ',', $susbcription_list_item_value->metadata->roles );
+							$count = count( $susbcription_roles );
+							foreach( explode( ',', $susbcription_list_item_value->metadata->roles ) as $key => $value ) {
+								echo $i < $count-1 ? " {$value}," : " {$value}";
+								$api_roles_array[] = $value;
+								$i++;
+							}
+							echo " )";
+						}
+						echo "</li>";
+				}
+				echo '</ul>';
+				$meta = maybe_unserialize( get_user_meta( $uid, WSSPG_PLUGIN_MODE.'_subscriptions', true ) );
+				$meta = array_unique( $meta );
+				$db_array = array();
+				echo 'DB:<ul>';
+				foreach( $meta as $susbcription_list_item => $susbcription_list_item_value ) {
+						echo "<li>{$susbcription_list_item_value}</li>";
+						$db_array[] = $susbcription_list_item_value;
+				}
+				echo '</ul>';
+				// ------------------------------------------------------------------------------- //
 			}
-			include WSSPG_PLUGIN_DIR_PATH . 'templates/myaccount/my-subscriptions.php';
 		}
 	}
 	

@@ -171,7 +171,7 @@ class Wsspg_Admin {
 	public function wsspg_woocommerce_get_price_html( $price, $product ) {
 		
 		if( !empty( $product ) && $product->is_type( 'wsspg_subscription' ) ) {
-			$meta = get_post_meta( $product->get_id() );
+			$meta = version_compare( WC_VERSION, '3.0.0', '<' ) ? get_post_meta( $product->post->ID ) : get_post_meta( $product->get_id() );
 			if( ! isset( $meta['_wsspg_stripe_plan_interval'][0] ) ) {
 				return $price;
 			} elseif( ! isset( $meta['_wsspg_stripe_plan_interval_count'][0] ) ) {
@@ -213,7 +213,7 @@ class Wsspg_Admin {
 		
 		$item = $item['data'];
 		if( ! empty( $item ) && $item->is_type( 'wsspg_subscription' ) ) {
-			$meta = get_post_meta( $item->get_id() );
+			$meta = version_compare( WC_VERSION, '3.0.0', '<' ) ? get_post_meta( $item->post->ID ) : get_post_meta( $item->get_id() );
 			if( ! isset( $meta['_wsspg_stripe_plan_interval'][0] ) ) {
 				return $price;
 			} elseif( ! isset( $meta['_wsspg_stripe_plan_interval_count'][0] ) ) {
@@ -225,7 +225,7 @@ class Wsspg_Admin {
 			} else {
 				if( $meta['_wsspg_stripe_plan_interval_count'][0] > 1 ) {
 					return sprintf(
-						esc_html( __( '%s per %.0f %ss', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) ),
+						esc_html( __( '%s every %.0f %ss', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) ),
 						$price,
 						$meta['_wsspg_stripe_plan_interval_count'][0],
 						$meta['_wsspg_stripe_plan_interval'][0]
@@ -255,7 +255,7 @@ class Wsspg_Admin {
 		
 		$item = $item['data'];
 		if( ! empty( $item ) && $item->is_type( 'wsspg_subscription' ) ) {
-			$meta = get_post_meta( $item->get_id() );
+			$meta = version_compare( WC_VERSION, '3.0.0', '<' ) ? get_post_meta( $item->post->ID ) : get_post_meta( $item->get_id() );
 			if( ! isset( $meta['_wsspg_stripe_plan_interval'][0] ) ) {
 				return $price;
 			} elseif( ! isset( $meta['_wsspg_stripe_plan_interval_count'][0] ) ) {
@@ -267,7 +267,7 @@ class Wsspg_Admin {
 			} else {
 				if( $meta['_wsspg_stripe_plan_interval_count'][0] > 1 ) {
 					return sprintf(
-						esc_html( __( '%s per %.0f %ss', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) ),
+						esc_html( __( '%s every %.0f %ss', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) ),
 						$price,
 						$meta['_wsspg_stripe_plan_interval_count'][0],
 						$meta['_wsspg_stripe_plan_interval'][0]
@@ -293,11 +293,12 @@ class Wsspg_Admin {
 	 * @return  string
 	 */
 	public function wsspg_woocommerce_order_formatted_line_subtotal( $subtotal, $item ) {
-		$_product_id = $item->get_id();
+	
+		$_product_id = version_compare( WC_VERSION, '3.0.0', '<' ) ? $item['item_meta']['_product_id'][0] : $item->get_id();
 		$_product = wc_get_product( $_product_id );
 		$item = $_product;
 		if( ! empty( $item ) && $item->is_type( 'wsspg_subscription' ) ) {
-			$meta = get_post_meta( $item->get_id() );
+			$meta = get_post_meta( $_product_id );
 			if( ! isset( $meta['_wsspg_stripe_plan_interval'][0] ) ) {
 				return $subtotal;
 			} elseif( ! isset( $meta['_wsspg_stripe_plan_interval_count'][0] ) ) {
