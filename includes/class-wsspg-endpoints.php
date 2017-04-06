@@ -74,7 +74,7 @@ class Wsspg_Endpoints {
 				$this->title = $settings['myaccount_subscriptions_title'];
 			}
 			if( empty( $this->title ) ) {
-				$this->title = __( 'Subscriptions', 'wsspg-woocommerce-stripe-subscription-payment-gateway' );
+				$this->title = esc_html__( 'Subscriptions', 'wsspg-woocommerce-stripe-subscription-payment-gateway' );
 			}
 			if( $this->mode !== 'disabled' ) {
 				add_rewrite_endpoint( $this->endpoint, EP_ROOT | EP_PAGES );

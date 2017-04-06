@@ -45,15 +45,15 @@ class Wsspg_Subscription_List_Table extends WP_List_Table {
 		
 		global $status, $page;
 		$this->fields = array(
-			'subscription' => __( 'Subscription', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
-			'customer'     => __( 'Customer', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
-			'plan'         => __( 'Plan', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
-			'created'      => __( 'Created', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
+			'subscription' => esc_html__( 'Subscription', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
+			'customer'     => esc_html__( 'Customer', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
+			'plan'         => esc_html__( 'Plan', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
+			'created'      => esc_html__( 'Created', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 		);
 		$this->subscriptions = Wsspg_Api::request( 'subscriptions', Wsspg::get_api_key('secret'), null, 'GET' );
 		parent::__construct( array(
-			'singular' => __( 'Subscription', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
-			'plural'   => __( 'Subscriptions', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
+			'singular' => esc_html__( 'Subscription', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
+			'plural'   => esc_html__( 'Subscriptions', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 			'ajax'     => false
 		));
 	}

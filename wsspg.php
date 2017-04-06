@@ -111,7 +111,7 @@ function fail_wsspg() {
 function wsspg_failed() {
 	
 	echo sprintf(
-		__( '%sOops:%s WooCommerce Stripe Subscription Payment Gateway encountered an error.%s', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
+		esc_html__( '%sOops:%s WooCommerce Stripe Subscription Payment Gateway encountered an error.%s', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 		'<div class="notice notice-error is-dismissible"><p><strong>','</strong>','</p></div>'
 	);
 }
@@ -133,7 +133,7 @@ function init_wsspg() {
 		$_id        = 'wsspg';
 		$_title     = 'Stripe (wsspg)';
 		$_desc      = sprintf(
-			__( 'Accept %sCredit Cards%s, %sBitcoin%s, %sAlipay%s, and connect your %sWooCommerce%s store to %sStripe%s\'s Subscription API.', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
+			esc_html__( 'Accept %sCredit Cards%s, %sBitcoin%s, %sAlipay%s, and connect your %sWooCommerce%s store to %sStripe%s\'s Subscription API.', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 			'<strong>','</strong>',
 			'<strong>','</strong>',
 			'<strong>','</strong>',

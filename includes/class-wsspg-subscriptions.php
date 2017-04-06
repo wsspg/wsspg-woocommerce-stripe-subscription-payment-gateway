@@ -55,7 +55,7 @@ class Wsspg_Subscriptions {
 	public function wsspg_subscriptions_woocommerce_product_data_tabs( $product_data_tabs ) {
 		
 		$product_data_tabs['wsspg-subscription-product-data-tab'] = array(
-			'label' => __( 'Subscription', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
+			'label' => esc_html__( 'Subscription', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 			'target' => 'wsspg-subscription-product-data-tab',
 			'class' => 'wsspg-subscription-product-data-tab-label show_if_wsspg_subscription'
 		);
@@ -84,16 +84,16 @@ class Wsspg_Subscriptions {
 			$plan['id'] = $meta['_wsspg_stripe_plan_id'][0];
 		}
 		if( isset( $plan['id'] ) && $plan['id'] !== '' && !array_key_exists( '_wsspg_stripe_plan_name', $meta ) ) {
-			$plan['placeholder'] = sprintf( __( 'No such plan: %s', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ), $plan['id'] );
+			$plan['placeholder'] = sprintf( esc_html__( 'No such plan: %s', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ), $plan['id'] );
 			$plan['id'] = '';
 		}
 		woocommerce_wp_text_input( array(
 			'id'=> 'wsspg-subscription-product-stripe-plan-id',
-			'label' => __( 'Stripe Plan ID', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
+			'label' => esc_html__( 'Stripe Plan ID', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 			'placeholder' => $plan['placeholder'],
 			'value' => $plan['id'],
 			'description' => sprintf(
-				__( 'Find the plan ID on your %sStripe Dashboard%s.%s', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
+				esc_html__( 'Find the plan ID on your %sStripe Dashboard%s.%s', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 				'<a href="https://dashboard.stripe.com/plans" target="_blank">',
 				'</a>',
 				'<hr>'
@@ -103,7 +103,7 @@ class Wsspg_Subscriptions {
 		if( array_key_exists( '_wsspg_stripe_plan_name', $meta ) ) {
 			woocommerce_wp_text_input( array(
 				'id'=> 'wsspg-subscription-product-stripe-plan-name',
-				'label' => __( 'Name', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
+				'label' => esc_html__( 'Name', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 				'placeholder' => $meta['_wsspg_stripe_plan_name'][0],
 				'description' => '',
 				'type'=> 'text',
@@ -113,7 +113,7 @@ class Wsspg_Subscriptions {
 		if( array_key_exists( '_wsspg_stripe_plan_amount', $meta ) ) {
 			woocommerce_wp_text_input( array(
 				'id'=> 'wsspg-subscription-product-stripe-plan-amount',
-				'label' => __( 'Amount', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
+				'label' => esc_html__( 'Amount', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 				'placeholder' => $meta['_wsspg_stripe_plan_amount'][0],
 				'description' => '',
 				'type'=> 'text',
@@ -123,7 +123,7 @@ class Wsspg_Subscriptions {
 		if( array_key_exists( '_wsspg_stripe_plan_currency', $meta ) ) {
 			woocommerce_wp_text_input( array(
 				'id'=> 'wsspg-subscription-product-stripe-plan-currency',
-				'label' => __( 'Currency', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
+				'label' => esc_html__( 'Currency', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 				'placeholder' => $meta['_wsspg_stripe_plan_currency'][0],
 				'description' => '',
 				'type'=> 'text',
@@ -133,7 +133,7 @@ class Wsspg_Subscriptions {
 		if( array_key_exists( '_wsspg_stripe_plan_interval', $meta ) ) {
 			woocommerce_wp_text_input( array(
 				'id'=> 'wsspg-subscription-product-stripe-plan-interval',
-				'label' => __( 'Interval', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
+				'label' => esc_html__( 'Interval', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 				'placeholder' => $meta['_wsspg_stripe_plan_interval'][0],
 				'description' => '',
 				'type'=> 'text',
@@ -143,7 +143,7 @@ class Wsspg_Subscriptions {
 		if( array_key_exists( '_wsspg_stripe_plan_interval_count', $meta ) ) {
 			woocommerce_wp_text_input( array(
 				'id'=> 'wsspg-subscription-product-stripe-plan-interval-count',
-				'label' => __( 'Interval Count', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
+				'label' => esc_html__( 'Interval Count', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 				'placeholder' => $meta['_wsspg_stripe_plan_interval_count'][0],
 				'description' => '',
 				'type'=> 'text',
@@ -153,7 +153,7 @@ class Wsspg_Subscriptions {
 		if( array_key_exists( '_wsspg_stripe_plan_trial_period_days', $meta ) ) {
 			woocommerce_wp_text_input( array(
 				'id'=> 'wsspg-subscription-product-stripe-plan-trial-period-days',
-				'label' => __( 'Trial Period Days', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
+				'label' => esc_html__( 'Trial Period Days', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 				'placeholder' => $meta['_wsspg_stripe_plan_trial_period_days'][0],
 				'description' => '<hr>',
 				'type'=> 'text',
@@ -168,10 +168,10 @@ class Wsspg_Subscriptions {
 		}
 		woocommerce_wp_checkbox( array(
 			'id'=> 'wsspg-enable-multiple-subscriptions',
-			'label' => __( 'Multiple Subscriptions', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
+			'label' => esc_html__( 'Multiple Subscriptions', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 			'value' => $plan['enable_multiple_subscriptions'],
 			'description' => sprintf(
-				__( 'Enable this to allow customers to sign up to this plan more than once.', 'wsspg-woocommerce-stripe-subscription-payment-gateway' )
+				esc_html__( 'Enable this to allow customers to sign up to this plan more than once.', 'wsspg-woocommerce-stripe-subscription-payment-gateway' )
 			),
 			'type'=> 'checkbox'
 		) );
@@ -181,11 +181,11 @@ class Wsspg_Subscriptions {
 		}
 		woocommerce_wp_text_input( array(
 			'id'=> 'wsspg-subscription-product-user-roles',
-			'label' => __( 'User Roles', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
+			'label' => esc_html__( 'User Roles', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 			'placeholder' => '',
 			'value' => implode( ', ', $roles ),
 			'desc_tip' => 'true',
-			'description' => __( 'Add roles to registered users when they purchase this subscription. Accepts comma-separated list of values.', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
+			'description' => esc_html__( 'Add roles to registered users when they purchase this subscription. Accepts comma-separated list of values.', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 			'type'=> 'text'
 		) );
 		echo '</div>';
@@ -293,7 +293,7 @@ class Wsspg_Subscriptions {
 	 */
 	public function wsspg_subscriptions_product_type_selector( $types ) {
 		
-		$types[ 'wsspg_subscription' ] = __( 'Wsspg Subscription Product', 'wsspg-woocommerce-stripe-subscription-payment-gateway' );
+		$types[ 'wsspg_subscription' ] = esc_html__( 'Wsspg Subscription Product', 'wsspg-woocommerce-stripe-subscription-payment-gateway' );
 		return $types;
 	}
 	
