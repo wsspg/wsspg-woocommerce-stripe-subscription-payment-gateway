@@ -67,7 +67,9 @@
 				var $required = $( '.validate-required' );
 				var $valid = true;
 				$required.each( function() {
-					if( $( this ).find( 'input.input-text, select' ).val() === '' ) $valid = false;
+					if( $( this ).parent().css("display") != 'none' ) {
+						if( $( this ).find( 'input.input-text, select' ).val() === '' ) $valid = false;
+					}
 				});
 				if( ! $valid ) return true;
 			

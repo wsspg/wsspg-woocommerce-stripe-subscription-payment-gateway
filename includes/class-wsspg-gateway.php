@@ -201,17 +201,17 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 			//	grab an order and a customer.
 			//	throw an error if either is not set.
 			$order = wc_get_order( $order_id );
-			$customer = Wsspg_Customer::load( $order->customer_user );
+			$customer = Wsspg_Customer::load( $order->get_customer_id() );
 			if( ! isset( $order ) || ! isset( $customer ) ) throw new Exception();
 			//	give everyone a stripe id, regardless.
 			//	throw an error if one is not set after the api request.
 			if( ! isset( $customer->stripe ) ) {
 				$customer->params = array(
-					"email"    => $order->billing_email,
+					"email"    => $order->get_billing_email(),
 					"metadata" => array(
-						"first_name" => $order->billing_first_name,
-						"last_name"  => $order->billing_last_name,
-						"telephone"  => $order->billing_phone,
+						"first_name" => $order->get_billing_first_name(),
+						"last_name"  => $order->get_billing_last_name(),
+						"telephone"  => $order->get_billing_phone(),
 					),
 				);
 				$customer->_object = Wsspg_API::request( 'customers', $this->key, $customer->params );
@@ -281,9 +281,9 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 					if( $_product->is_taxable() ) {
 						$_tax = new WC_Tax();
 						$product_tax_class = $_product->get_tax_class();
-        				$rates =  array_shift( $_tax->get_rates( $product_tax_class ) );
-						$tax = round( array_shift( $rates ) );
-						$tax_percent = $tax;
+						$rates = $_tax->get_rates( $product_tax_class );
+        				$rate = array_shift( $rates );
+						$tax_percent = $rate['rate'];
 					}
 					//	subscription payment source must be reusable.
 					if( isset( $data['token']['object'] ) ) {
@@ -297,7 +297,10 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 					//	mixed carts are capture only.
 					$this->payment_action = 'capture';
 					$roles = $customer->roles( $item );
-					$metadata = array( 'product_id' => $item->id );
+					$metadata = array(
+						'product_id' => $item->get_id(),
+						'order_id' => $order->get_id(),
+					);
 					if( isset( $roles ) ) $metadata = array_merge( $roles, $metadata );
 					$params = array(
 						"customer" => $customer->stripe,
@@ -324,10 +327,13 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 			if( $amount > 0 ) {
 				$params = array(
 					"amount" => $amount,
-					"currency" => $order->order_currency,
+					"currency" => $order->get_currency(),
 					"customer" => $customer->stripe,
-					"description" => get_post_meta( $order->id, '_wsspg_order_description', true ),
+					"description" => get_post_meta( $order->get_id(), '_wsspg_order_description', true ),
 					"capture" => $this->payment_action === 'capture' ? 'true' : 'false',
+					"metadata" => array(
+						'order_id' => $order->get_id()
+					),
 				);
 				$charge = Wsspg_API::request( 'charges', $this->key, $params );
 				if( isset( $charge ) ) {
@@ -779,7 +785,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 		
 		if( ! get_post_meta( $order_id, '_wsspg_order_funds_captured', true ) ) {
 			$uncaptured = get_post_meta( $order_id, '_wsspg_order_uncaptured_charge', true );
-			if( isset( $uncaptured ) && $uncaptured !== null ) {
+			if( isset( $uncaptured ) && ! empty( $uncaptured ) ) {
 				$charge = Wsspg_API::request(
 					"charges/{$uncaptured}/capture",
 					$this->key
@@ -819,7 +825,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 		
 		if( ! get_post_meta( $order_id, '_wsspg_order_funds_captured', true ) ) {
 			$uncaptured = get_post_meta( $order_id, '_wsspg_order_uncaptured_charge', true );
-			if( isset( $uncaptured ) && $uncaptured !== null ) {
+			if( isset( $uncaptured ) && ! empty( $uncaptured ) ) {
 				$charge = Wsspg_API::request(
 					"charges/{$uncaptured}/capture",
 					$this->key

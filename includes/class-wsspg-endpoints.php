@@ -257,52 +257,6 @@ class Wsspg_Endpoints {
 					}
 				}
 				include WSSPG_PLUGIN_DIR_PATH . 'templates/myaccount/my-subscriptions.php';
-				// ------------------------------------------------------------------------------- //
-				$user_roles = array();
-				echo 'USER ROLES:<ul>';
-				foreach( $user->roles as $user_role_key => $user_role_value ) {
-						echo "<li>{$user_role_value}</li>";
-						$user_roles[] = $user_role_value;
-				}
-				echo '</ul>';
-				$stripe = get_user_meta( $uid, WSSPG_PLUGIN_MODE.'_stripe_id', true );
-				if( ! empty( $stripe )  ) {
-					$params = array(
-						"customer" => $stripe,
-					);
-					$subscriptions = Wsspg_Api::request( 'subscriptions', Wsspg::get_api_key('secret'), $params, 'GET' );
-				}
-				$api_subs_array = array();
-				$api_roles_array = array();
-				echo 'API:<ul>';
-				foreach( $subscriptions->data as $susbcription_list_item => $susbcription_list_item_value ) {
-						echo "<li>{$susbcription_list_item_value->plan->id}";
-						$api_subs_array[] = $susbcription_list_item_value->plan->id;
-						if( isset( $susbcription_list_item_value->metadata->roles ) ) {
-							echo " (";
-							$i = 0;
-							$susbcription_roles = explode( ',', $susbcription_list_item_value->metadata->roles );
-							$count = count( $susbcription_roles );
-							foreach( explode( ',', $susbcription_list_item_value->metadata->roles ) as $key => $value ) {
-								echo $i < $count-1 ? " {$value}," : " {$value}";
-								$api_roles_array[] = $value;
-								$i++;
-							}
-							echo " )";
-						}
-						echo "</li>";
-				}
-				echo '</ul>';
-				$meta = maybe_unserialize( get_user_meta( $uid, WSSPG_PLUGIN_MODE.'_subscriptions', true ) );
-				$meta = array_unique( $meta );
-				$db_array = array();
-				echo 'DB:<ul>';
-				foreach( $meta as $susbcription_list_item => $susbcription_list_item_value ) {
-						echo "<li>{$susbcription_list_item_value}</li>";
-						$db_array[] = $susbcription_list_item_value;
-				}
-				echo '</ul>';
-				// ------------------------------------------------------------------------------- //
 			}
 		}
 	}
