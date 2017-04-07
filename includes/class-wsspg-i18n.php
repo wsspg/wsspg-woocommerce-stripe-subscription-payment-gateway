@@ -31,7 +31,7 @@ class Wsspg_i18n {
 		load_plugin_textdomain(
 			'wsspg-woocommerce-stripe-subscription-payment-gateway',
 			false,
-			'wsspg/i18n/languages/'
+			'wsspg-woocommerce-stripe-subscription-payment-gateway/i18n/languages/'
 		);
 	}
 }

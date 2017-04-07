@@ -1,0 +1,657 @@
+# wsspg
+# Copyright (c) 2016 https://github.com/wsspg
+# This file is distributed under the GNU General Public License, version 3 (GPL-3.0).
+# wsspg <wsspg@mail.com>, 2017.
+#
+#: includes/settings-wsspg.php:115 includes/settings-wsspg.php:129
+#: includes/settings-wsspg.php:143 includes/settings-wsspg.php:157
+#: includes/settings-wsspg.php:488
+msgid ""
+msgstr ""
+"Project-Id-Version: wsspg 1.0.4\n"
+"Report-Msgid-Bugs-To: wsspg@mail.com\n"
+"POT-Creation-Date: 2017-04-07 13:14+0100\n"
+"PO-Revision-Date: 2017-04-07 13:20+0100\n"
+"Last-Translator:  <wsspg@mail.com>\n"
+"Language-Team: English\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: includes/class-wsspg-admin.php:179 includes/class-wsspg-admin.php:193
+#: includes/class-wsspg-admin.php:221 includes/class-wsspg-admin.php:235
+#: includes/class-wsspg-admin.php:263 includes/class-wsspg-admin.php:277
+#: includes/class-wsspg-admin.php:306 includes/class-wsspg-admin.php:320
+#, php-format
+msgid "%s per %s"
+msgstr "%s per %s"
+
+#: includes/class-wsspg-admin.php:186 includes/class-wsspg-admin.php:228
+#: includes/class-wsspg-admin.php:270
+#, php-format
+msgid "%s every %.0f %ss"
+msgstr "%s every %.0f %ss"
+
+#: includes/class-wsspg-admin.php:313
+#, php-format
+msgid "%s per %.0f %ss"
+msgstr "%s per %.0f %ss"
+
+#: templates/checkout/wsspg-inline-cc-form.php:27
+msgid "Card Number"
+msgstr "Card Number"
+
+#: templates/checkout/wsspg-inline-cc-form.php:34
+msgid "Expiry (MM)"
+msgstr "Expiry (MM)"
+
+#: templates/checkout/wsspg-inline-cc-form.php:37
+msgid "MM"
+msgstr "MM"
+
+#: templates/checkout/wsspg-inline-cc-form.php:41
+msgid "Expiry (YY)"
+msgstr "Expiry (YY)"
+
+#: templates/checkout/wsspg-inline-cc-form.php:44
+msgid "YY"
+msgstr "YY"
+
+#: templates/checkout/wsspg-inline-cc-form.php:48
+#: templates/checkout/wsspg-inline-cc-form.php:51
+msgid "CVC"
+msgstr "CVC"
+
+#: templates/myaccount/my-subscriptions.php:31
+#: templates/myaccount/my-subscriptions.php:45
+#: includes/class-wsspg-subscription-list-table.php:50
+msgid "Plan"
+msgstr "Plan"
+
+#: templates/myaccount/my-subscriptions.php:32
+#: templates/myaccount/my-subscriptions.php:61
+#: includes/class-wsspg-subscriptions.php:116
+msgid "Amount"
+msgstr "Amount"
+
+#: templates/myaccount/my-subscriptions.php:33
+#: templates/myaccount/my-subscriptions.php:69
+msgid "Status"
+msgstr "Status"
+
+#: templates/myaccount/my-subscriptions.php:35
+#: templates/myaccount/my-subscriptions.php:71
+msgid "Cancel"
+msgstr "Cancel"
+
+#: templates/myaccount/my-subscriptions.php:64
+msgid "every"
+msgstr "every"
+
+#: templates/myaccount/my-subscriptions.php:66
+msgid "per"
+msgstr "per"
+
+#: includes/class-wsspg-admin.php:48
+msgid "View Wsspg Settings"
+msgstr "View Wsspg Settings"
+
+#: includes/class-wsspg-admin.php:49
+msgid "Settings"
+msgstr "Settings"
+
+#: includes/class-wsspg-admin.php:55
+msgid "Edit Wsspg"
+msgstr "Edit Wsspg"
+
+#: includes/class-wsspg-admin.php:56
+msgid "Edit"
+msgstr "Edit"
+
+#: includes/class-wsspg-admin.php:84
+msgid "View Wsspg Documentation"
+msgstr "View Wsspg Documentation"
+
+#: includes/class-wsspg-admin.php:85
+msgid "Docs"
+msgstr "Docs"
+
+#: includes/class-wsspg-admin.php:90 includes/class-wsspg-admin.php:91
+msgid "Get Stripe API Keys"
+msgstr "Get Stripe API Keys"
+
+#: includes/class-wsspg-admin.php:96
+msgid "Get support for Wsspg"
+msgstr "Get support for Wsspg"
+
+#: includes/class-wsspg-admin.php:97
+msgid "Support"
+msgstr "Support"
+
+#: includes/class-wsspg-admin.php:134
+msgid "Manage Stripe Subscriptions"
+msgstr "Manage Stripe Subscriptions"
+
+#: includes/class-wsspg-admin.php:135
+msgid "Stripe Subscriptions"
+msgstr "Stripe Subscriptions"
+
+#: includes/class-wsspg-admin.php:348
+#, php-format
+msgid "Stripe Subscriptions%s"
+msgstr "Stripe Subscriptions%s"
+
+#: includes/class-wsspg-api.php:64 includes/class-wsspg-api.php:74
+msgid "error"
+msgstr "error"
+
+#: includes/class-wsspg-gateway.php:156 includes/settings-wsspg.php:314
+msgid "Place Order"
+msgstr "Place Order"
+
+#: includes/class-wsspg-gateway.php:159 includes/settings-wsspg.php:378
+msgid "Pay {{amount}}"
+msgstr "Pay {{amount}}"
+
+#: includes/class-wsspg-gateway.php:265
+msgid "The cart total does not meet Stripe's minimum order requirement."
+msgstr "The cart total does not meet Stripe's minimum order requirement."
+
+#: includes/class-wsspg-gateway.php:292
+msgid "Payment sources for subscription products must be reusable."
+msgstr "Payment sources for subscription products must be reusable."
+
+#: includes/class-wsspg-gateway.php:320
+#, php-format
+msgid "Subscription authorized and captured: %s"
+msgstr "Subscription authorized and captured: %s"
+
+#: includes/class-wsspg-gateway.php:353
+#, php-format
+msgid "Payment authorized and captured: %s"
+msgstr "Payment authorized and captured: %s"
+
+#: includes/class-wsspg-gateway.php:364
+#, php-format
+msgid "Payment authorized: %s"
+msgstr "Payment authorized: %s"
+
+#: includes/class-wsspg-gateway.php:404
+msgid ""
+"It is not possible to refund Bitcoin transactions through this interface."
+msgstr ""
+"It is not possible to refund Bitcoin transactions through this interface."
+
+#: includes/class-wsspg-gateway.php:420
+#, php-format
+msgid "Refunded %s%s%s%s: %s"
+msgstr "Refunded %s%s%s%s: %s"
+
+#: includes/class-wsspg-gateway.php:473
+msgid "There was an error processing your request."
+msgstr "There was an error processing your request."
+
+#: includes/class-wsspg-gateway.php:810 includes/class-wsspg-gateway.php:850
+#, php-format
+msgid "Payment captured: %s"
+msgstr "Payment captured: %s"
+
+#: includes/class-wsspg-endpoints.php:77 includes/settings-wsspg.php:261
+#: includes/class-wsspg-subscription-list-table.php:56
+msgid "Subscriptions"
+msgstr "Subscriptions"
+
+#: includes/class-wsspg-endpoints.php:306
+msgid "N/A"
+msgstr "N/A"
+
+#: includes/class-wsspg-endpoints.php:311
+msgid "Delete"
+msgstr "Delete"
+
+#: includes/class-wsspg-endpoints.php:319
+msgid "Make Default"
+msgstr "Make Default"
+
+#: includes/settings-wsspg.php:30 includes/settings-wsspg.php:179
+#: includes/settings-wsspg.php:224 includes/settings-wsspg.php:336
+msgid "Enable/Disable"
+msgstr "Enable/Disable"
+
+#: includes/settings-wsspg.php:31
+msgid "Enable&nbsp;"
+msgstr "Enable&nbsp;"
+
+#: includes/settings-wsspg.php:44
+msgid "Mode"
+msgstr "Mode"
+
+#: includes/settings-wsspg.php:47
+msgid "Run the plugin in test mode or go live."
+msgstr "Run the plugin in test mode or go live."
+
+#: includes/settings-wsspg.php:51
+msgid "Test"
+msgstr "Test"
+
+#: includes/settings-wsspg.php:52
+msgid "Live"
+msgstr "Live"
+
+#: includes/settings-wsspg.php:63
+msgid "Payment Action"
+msgstr "Payment Action"
+
+#: includes/settings-wsspg.php:66
+msgid "Capture funds immediately or authorize payment only."
+msgstr "Capture funds immediately or authorize payment only."
+
+#: includes/settings-wsspg.php:70
+msgid "Capture"
+msgstr "Capture"
+
+#: includes/settings-wsspg.php:71
+msgid "Authorize"
+msgstr "Authorize"
+
+#: includes/settings-wsspg.php:82
+msgid "Save Payment Method"
+msgstr "Save Payment Method"
+
+#: includes/settings-wsspg.php:85
+msgid ""
+"Allow registered customers to save their (tokenized) payment method(s) for "
+"future use."
+msgstr ""
+"Allow registered customers to save their (tokenized) payment method(s) for "
+"future use."
+
+#: includes/settings-wsspg.php:89 includes/settings-wsspg.php:344
+#: includes/settings-wsspg.php:363 includes/settings-wsspg.php:436
+#: includes/settings-wsspg.php:455 includes/settings-wsspg.php:474
+#: includes/settings-wsspg.php:506
+msgid "Enabled"
+msgstr "Enabled"
+
+#: includes/settings-wsspg.php:90 includes/settings-wsspg.php:200
+#: includes/settings-wsspg.php:231 includes/settings-wsspg.php:343
+#: includes/settings-wsspg.php:362 includes/settings-wsspg.php:437
+#: includes/settings-wsspg.php:456 includes/settings-wsspg.php:475
+#: includes/settings-wsspg.php:505
+msgid "Disabled"
+msgstr "Disabled"
+
+#: includes/settings-wsspg.php:100
+#, php-format
+msgid "%sAPI Keys"
+msgstr "%sAPI Keys"
+
+#: includes/settings-wsspg.php:102
+#, php-format
+msgid "You can find your API keys on your %sStripe dashboard%s."
+msgstr "You can find your API keys on your %sStripe dashboard%s."
+
+#: includes/settings-wsspg.php:112 includes/settings-wsspg.php:114
+msgid "Live Secret Key"
+msgstr "Live Secret Key"
+
+#: includes/settings-wsspg.php:126 includes/settings-wsspg.php:128
+msgid "Live Publishable Key"
+msgstr "Live Publishable Key"
+
+#: includes/settings-wsspg.php:140 includes/settings-wsspg.php:142
+msgid "Test Secret Key"
+msgstr "Test Secret Key"
+
+#: includes/settings-wsspg.php:154 includes/settings-wsspg.php:156
+msgid "Test Publishable Key"
+msgstr "Test Publishable Key"
+
+#: includes/settings-wsspg.php:167
+#, php-format
+msgid "%sSubscriptions"
+msgstr "%sSubscriptions"
+
+#: includes/settings-wsspg.php:169
+msgid ""
+"Wsspg defines a new product type that connects your store to Stripe's "
+"Subscriptions API."
+msgstr ""
+"Wsspg defines a new product type that connects your store to Stripe's "
+"Subscriptions API."
+
+#: includes/settings-wsspg.php:180
+msgid "Enable Subscriptions"
+msgstr "Enable Subscriptions"
+
+#: includes/settings-wsspg.php:193
+msgid "Guest Subscriptions"
+msgstr "Guest Subscriptions"
+
+#: includes/settings-wsspg.php:196
+msgid ""
+"Allow un-registered customers to view and/or purchase subscription products."
+msgstr ""
+"Allow un-registered customers to view and/or purchase subscription products."
+
+#: includes/settings-wsspg.php:201 includes/settings-wsspg.php:232
+msgid "View Subscriptions Only"
+msgstr "View Subscriptions Only"
+
+#: includes/settings-wsspg.php:202
+msgid "View and Purchase Subscriptions"
+msgstr "View and Purchase Subscriptions"
+
+#: includes/settings-wsspg.php:212
+#, php-format
+msgid "%sMy Account"
+msgstr "%sMy Account"
+
+#: includes/settings-wsspg.php:214
+msgid ""
+"Allow registered customers to view/cancel their purchased subscriptions."
+msgstr ""
+"Allow registered customers to view/cancel their purchased subscriptions."
+
+#: includes/settings-wsspg.php:227
+msgid "Allow registered customers to view/cancel their subscriptions."
+msgstr "Allow registered customers to view/cancel their subscriptions."
+
+#: includes/settings-wsspg.php:233
+msgid "View and Cancel Subscriptions"
+msgstr "View and Cancel Subscriptions"
+
+#: includes/settings-wsspg.php:244
+msgid "Endpoint"
+msgstr "Endpoint"
+
+#: includes/settings-wsspg.php:246
+msgid ""
+"URL suffix to handle My Account actions. Must be unique and contain no "
+"special characters."
+msgstr ""
+"URL suffix to handle My Account actions. Must be unique and contain no "
+"special characters."
+
+#: includes/settings-wsspg.php:247
+msgid "wsspg-custom-endpoint"
+msgstr "wsspg-custom-endpoint"
+
+#: includes/settings-wsspg.php:258
+msgid "Endpoint Title"
+msgstr "Endpoint Title"
+
+#: includes/settings-wsspg.php:260
+msgid "The endpoint title. "
+msgstr "The endpoint title. "
+
+#: includes/settings-wsspg.php:271
+#, php-format
+msgid "%sCustomize"
+msgstr "%sCustomize"
+
+#: includes/settings-wsspg.php:273
+msgid "Change the plugin's appearance."
+msgstr "Change the plugin's appearance."
+
+#: includes/settings-wsspg.php:283
+msgid "Title"
+msgstr "Title"
+
+#: includes/settings-wsspg.php:285
+msgid "The payment method title."
+msgstr "The payment method title."
+
+#: includes/settings-wsspg.php:297
+msgid "Description"
+msgstr "Description"
+
+#: includes/settings-wsspg.php:299
+msgid "A description of the payment method which appears on the checkout."
+msgstr "A description of the payment method which appears on the checkout."
+
+#: includes/settings-wsspg.php:311
+msgid "Place Order Button"
+msgstr "Place Order Button"
+
+#: includes/settings-wsspg.php:313
+msgid "Text displayed on the checkout place order button."
+msgstr "Text displayed on the checkout place order button."
+
+#: includes/settings-wsspg.php:324
+#, php-format
+msgid "%sStripe Checkout"
+msgstr "%sStripe Checkout"
+
+#: includes/settings-wsspg.php:326
+#, php-format
+msgid ""
+"%sStripe Checkout%s is an embeddable payment form that, if enabled, replaces "
+"the inline credit card form on the checkout page."
+msgstr ""
+"%sStripe Checkout%s is an embeddable payment form that, if enabled, replaces "
+"the inline credit card form on the checkout page."
+
+#: includes/settings-wsspg.php:339
+msgid "Enable or disable the Stripe Checkout embedded form."
+msgstr "Enable or disable the Stripe Checkout embedded form."
+
+#: includes/settings-wsspg.php:355
+msgid "Remember Me"
+msgstr "Remember Me"
+
+#: includes/settings-wsspg.php:358
+msgid ""
+"Specify whether to include the option to \"Remember Me\" for future "
+"purchases."
+msgstr ""
+"Specify whether to include the option to \"Remember Me\" for future "
+"purchases."
+
+#: includes/settings-wsspg.php:375
+msgid "Pay Button"
+msgstr "Pay Button"
+
+#: includes/settings-wsspg.php:377
+msgid "Displayed on the pop-up modal submit button."
+msgstr "Displayed on the pop-up modal submit button."
+
+#: includes/settings-wsspg.php:389
+msgid "Locale"
+msgstr "Locale"
+
+#: includes/settings-wsspg.php:392
+msgid ""
+"Specify auto to display Checkout in the user's preferred language, if "
+"available."
+msgstr ""
+"Specify auto to display Checkout in the user's preferred language, if "
+"available."
+
+#: includes/settings-wsspg.php:396
+msgid "Auto"
+msgstr "Auto"
+
+#: includes/settings-wsspg.php:397
+msgid "Simplified Chinese"
+msgstr "Simplified Chinese"
+
+#: includes/settings-wsspg.php:398
+msgid "Dutch"
+msgstr "Dutch"
+
+#: includes/settings-wsspg.php:399
+msgid "English"
+msgstr "English"
+
+#: includes/settings-wsspg.php:400
+msgid "French"
+msgstr "French"
+
+#: includes/settings-wsspg.php:401
+msgid "German"
+msgstr "German"
+
+#: includes/settings-wsspg.php:402
+msgid "Italian"
+msgstr "Italian"
+
+#: includes/settings-wsspg.php:403
+msgid "Japanese"
+msgstr "Japanese"
+
+#: includes/settings-wsspg.php:404
+msgid "Spanish"
+msgstr "Spanish"
+
+#: includes/settings-wsspg.php:415
+msgid "Thumbnail"
+msgstr "Thumbnail"
+
+#: includes/settings-wsspg.php:416
+msgid ""
+"A relative or absolute URL pointing to a square image of your brand or "
+"product. The recommended minimum size is 128x128px. The supported image "
+"types are: .gif, .jpeg, and .png."
+msgstr ""
+"A relative or absolute URL pointing to a square image of your brand or "
+"product. The recommended minimum size is 128x128px. The supported image "
+"types are: .gif, .jpeg, and .png."
+
+#: includes/settings-wsspg.php:429
+msgid "Bitcoin"
+msgstr "Bitcoin"
+
+#: includes/settings-wsspg.php:432
+msgid ""
+"Accept Bitcoin through Stripe Checkout (only available for USD). Note: funds "
+"in Bitcoin transactions are captured immediately."
+msgstr ""
+"Accept Bitcoin through Stripe Checkout (only available for USD). Note: funds "
+"in Bitcoin transactions are captured immediately."
+
+#: includes/settings-wsspg.php:448
+msgid "Refund Mispayments"
+msgstr "Refund Mispayments"
+
+#: includes/settings-wsspg.php:451
+msgid "Automatically refund Bitcoin mispayments after one hour."
+msgstr "Automatically refund Bitcoin mispayments after one hour."
+
+#: includes/settings-wsspg.php:467
+msgid "Alipay"
+msgstr "Alipay"
+
+#: includes/settings-wsspg.php:470
+msgid ""
+"Accept Alipay through Stripe Checkout (only available for USD). Note: funds "
+"in Alipay transactions are captured immediately."
+msgstr ""
+"Accept Alipay through Stripe Checkout (only available for USD). Note: funds "
+"in Alipay transactions are captured immediately."
+
+#: includes/settings-wsspg.php:486
+#, php-format
+msgid "%sAdvanced Options"
+msgstr "%sAdvanced Options"
+
+#: includes/settings-wsspg.php:498
+msgid "Debug"
+msgstr "Debug"
+
+#: includes/settings-wsspg.php:501
+#, php-format
+msgid "Log events at: <code>%s</code>"
+msgstr "Log events at: <code>%s</code>"
+
+#: includes/class-wsspg-subscription-list-table.php:48
+#: includes/class-wsspg-subscription-list-table.php:55
+#: includes/class-wsspg-subscriptions.php:58
+msgid "Subscription"
+msgstr "Subscription"
+
+#: includes/class-wsspg-subscription-list-table.php:49
+msgid "Customer"
+msgstr "Customer"
+
+#: includes/class-wsspg-subscription-list-table.php:51
+msgid "Created"
+msgstr "Created"
+
+#: includes/class-wsspg-subscriptions.php:87
+#, php-format
+msgid "No such plan: %s"
+msgstr "No such plan: %s"
+
+#: includes/class-wsspg-subscriptions.php:92
+msgid "Stripe Plan ID"
+msgstr "Stripe Plan ID"
+
+#: includes/class-wsspg-subscriptions.php:96
+#, php-format
+msgid "Find the plan ID on your %sStripe Dashboard%s.%s"
+msgstr "Find the plan ID on your %sStripe Dashboard%s.%s"
+
+#: includes/class-wsspg-subscriptions.php:106
+msgid "Name"
+msgstr "Name"
+
+#: includes/class-wsspg-subscriptions.php:126
+msgid "Currency"
+msgstr "Currency"
+
+#: includes/class-wsspg-subscriptions.php:136
+msgid "Interval"
+msgstr "Interval"
+
+#: includes/class-wsspg-subscriptions.php:146
+msgid "Interval Count"
+msgstr "Interval Count"
+
+#: includes/class-wsspg-subscriptions.php:156
+msgid "Trial Period Days"
+msgstr "Trial Period Days"
+
+#: includes/class-wsspg-subscriptions.php:171
+msgid "Multiple Subscriptions"
+msgstr "Multiple Subscriptions"
+
+#: includes/class-wsspg-subscriptions.php:174
+msgid "Enable this to allow customers to sign up to this plan more than once."
+msgstr "Enable this to allow customers to sign up to this plan more than once."
+
+#: includes/class-wsspg-subscriptions.php:184
+msgid "User Roles"
+msgstr "User Roles"
+
+#: includes/class-wsspg-subscriptions.php:188
+msgid ""
+"Add roles to registered users when they purchase this subscription. Accepts "
+"comma-separated list of values."
+msgstr ""
+"Add roles to registered users when they purchase this subscription. Accepts "
+"comma-separated list of values."
+
+#: includes/class-wsspg-subscriptions.php:296
+msgid "Wsspg Subscription Product"
+msgstr "Wsspg Subscription Product"
+
+#: wsspg.php:114
+#, php-format
+msgid ""
+"%sOops:%s WooCommerce Stripe Subscription Payment Gateway encountered an "
+"error.%s"
+msgstr ""
+"%sOops:%s WooCommerce Stripe Subscription Payment Gateway encountered an "
+"error.%s"
+
+#: wsspg.php:136
+#, php-format
+msgid ""
+"Accept %sCredit Cards%s, %sBitcoin%s, %sAlipay%s, and connect your "
+"%sWooCommerce%s store to %sStripe%s's Subscription API."
+msgstr ""
+"Accept %sCredit Cards%s, %sBitcoin%s, %sAlipay%s, and connect your "
+"%sWooCommerce%s store to %sStripe%s's Subscription API."
