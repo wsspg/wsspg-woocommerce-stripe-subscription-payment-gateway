@@ -24,7 +24,7 @@ if( ! defined( 'ABSPATH' ) ) exit; // exit if accessed directly.
  * @class  Wsspg
  */
 class Wsspg {
-	
+
 	/**
 	 * The loader that's responsible for maintaining and registering the hooks that power the plugin.
 	 *
@@ -32,7 +32,7 @@ class Wsspg {
 	 * @var    Wsspg_Loader
 	 */
 	private $loader;
-	
+
 	/**
 	 * Static reference to the gateway settings.
 	 *
@@ -40,7 +40,7 @@ class Wsspg {
 	 * @var    array
 	 */
 	private static $settings;
-	
+
 	/**
 	 * Static reference to the log class.
 	 *
@@ -48,14 +48,14 @@ class Wsspg {
 	 * @var    WC_Logger
 	 */
 	private static $log;
-	
+
 	/**
 	 * Load the dependencies and set the hooks.
 	 *
 	 * @since  1.0.0
 	 */
 	public function __construct() {
-		
+
 		$this->load_dependencies();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
@@ -63,7 +63,7 @@ class Wsspg {
 		$this->define_endpoint_hooks();
 		$this->define_subscription_hooks();
 	}
-	
+
 	/**
 	 * Load the required dependencies for this plugin:
 	 *
@@ -84,7 +84,7 @@ class Wsspg {
 	 * @since  1.0.0
 	 */
 	private function load_dependencies() {
-		
+
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wsspg-loader.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wsspg-i18n.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wsspg-api.php';
@@ -97,14 +97,14 @@ class Wsspg {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wsspg-subscriptions.php';
 		$this->loader = new Wsspg_Loader();
 	}
-	
+
 	/**
 	 * Register endpoint hooks.
 	 *
 	 * @since  1.0.0
 	 */
 	private function define_endpoint_hooks() {
-		
+
 		$plugin_endpoints = new Wsspg_Endpoints();
 		$this->loader->add_filter(
 			'query_vars',
@@ -142,14 +142,14 @@ class Wsspg {
 			1
 		);
 	}
-	
+
 	/**
 	 * Register all of the hooks related to the admin area.
 	 *
 	 * @since  1.0.0
 	 */
 	private function define_admin_hooks() {
-		
+
 		$plugin_admin = new Wsspg_Admin();
 		$this->loader->add_filter(
 			'plugin_action_links_'.WSSPG_PLUGIN_BASENAME,
@@ -207,14 +207,14 @@ class Wsspg {
 			3
 		);
 	}
-	
+
 	/**
 	 * Register all of the hooks related to the gateway.
 	 *
 	 * @since  1.0.0
 	 */
 	private function define_gateway_hooks() {
-		
+
 		$plugin_gateway = new Wsspg_Payment_Gateway();
 		$this->loader->add_action(
 			'woocommerce_order_status_processing',
@@ -256,14 +256,14 @@ class Wsspg {
 			2
 		);
 	}
-	
+
 	/**
 	 * Register all of the hooks related to the public area.
 	 *
 	 * @since  1.0.0
 	 */
 	private function define_public_hooks() {
-		
+
 		$plugin_public = new Wsspg_Public();
 		$this->loader->add_action(
 			'wp_enqueue_scripts',
@@ -271,14 +271,14 @@ class Wsspg {
 			'wsspg_enqueue_scripts'
 		);
 	}
-	
+
 	/**
 	 * Register all of the hooks related to subscriptions.
 	 *
 	 * @since  1.0.0
 	 */
 	private function define_subscription_hooks() {
-		
+
 		$plugin_subscriptions = new Wsspg_Subscriptions();
 		$this->loader->add_filter(
 			'woocommerce_product_is_visible',
@@ -348,17 +348,17 @@ class Wsspg {
 			1
 		);
 	}
-	
+
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.
 	 *
 	 * @since  1.0.0
 	 */
 	public function run() {
-		
+
 		$this->loader->run();
 	}
-	
+
 	/**
 	 * Return the checkout method.
 	 *
@@ -366,14 +366,14 @@ class Wsspg {
 	 * @return  string | null
 	 */
 	public static function checkout_method() {
-		
+
 		$settings = self::get_settings();
 		if( isset( $settings['stripe_checkout_enabled'] ) ) {
 			return $settings['stripe_checkout_enabled'] === 'enabled' ? 'stripe' : 'inline' ;
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Are subscriptions enabled ?
 	 *
@@ -381,7 +381,7 @@ class Wsspg {
 	 * @return  boolean
 	 */
 	public static function subscriptions_enabled() {
-	
+
 		$settings = self::get_settings();
 		if( isset( $settings['subscriptions_enabled'] ) ) {
 			if( ! is_user_logged_in() && $settings['guest_subscriptions'] === 'disabled' ) {
@@ -391,7 +391,7 @@ class Wsspg {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Return the appropriate API key.
 	 *
@@ -400,7 +400,7 @@ class Wsspg {
 	 * @return  string | null
 	 */
 	public static function get_api_key( $switch = null ) {
-		
+
 		$settings = self::get_settings();
 		$mode = WSSPG_PLUGIN_MODE === 'wsspg_test' || ! is_ssl() ? 'test' : 'live';
 		switch( $switch ) {
@@ -415,7 +415,7 @@ class Wsspg {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Return the plugin settings.
 	 *
@@ -423,12 +423,12 @@ class Wsspg {
 	 * @return  array
 	 */
 	public static function get_settings() {
-	
+
 		if( empty( self::$settings ) )
 			self::$settings = get_option( "woocommerce_". WSSPG_PLUGIN_ID . "_settings" );
 		return self::$settings;
 	}
-	
+
 	/**
 	 * Static error and event logging.
 	 *
@@ -438,7 +438,7 @@ class Wsspg {
 	 * @param  string
 	 */
 	public static function log( $message ) {
-	
+
 		if( WSSPG_PLUGIN_DEBUG ) {
 			if( empty( self::$log ) ) {
 				self::$log = new WC_Logger();
@@ -448,5 +448,80 @@ class Wsspg {
 				error_log( $message );
 			}
 		}
+	}
+
+	/**
+	 * Returns true if $currency is zero decimal currency.
+	 *
+	 * With thanks to uganikov (https://github.com/uganikov)
+	 *
+	 * @since   1.0.5
+	 * @param   string
+	 * @return  boolean
+	 */
+	public static function is_zero_decimal( $currency ) {
+
+		$boolean = false;
+		switch( strtoupper( $currency ) ) {
+			// zero decimal currencies.
+			case 'BIF':
+			case 'CLP':
+			case 'DJF':
+			case 'GNF':
+			case 'JPY':
+			case 'KMF':
+			case 'KRW':
+			case 'MGA':
+			case 'PYG':
+			case 'RWF':
+			case 'VND':
+			case 'VUV':
+			case 'XAF':
+			case 'XOF':
+			case 'XPF':
+				$boolean = true;
+				break;
+		}
+		return $boolean;
+	}
+
+	/**
+	 * Returns the order total in the smallest currency unit.
+	 *
+	 * With thanks to uganikov (https://github.com/uganikov)
+	 *
+	 * @since   1.0.5
+	 * @param   float
+	 * @param   string
+	 * @return  int
+	 */
+	public static function get_zero_decimal( $total = null, $currency ) {
+
+		if( isset( $total ) ) {
+			if( Wsspg::is_zero_decimal( $currency ) ) {
+				$total = absint( $total );
+			} else {
+				$total = absint( round( $total, 2 ) * 100 );
+			}
+		}
+		return $total;
+	}
+
+	/**
+	 * Formats an amount from the smallest currency unit to the largest.
+	 *
+	 * With thanks to uganikov (https://github.com/uganikov)
+	 *
+	 * @since   1.0.5
+	 * @param   float
+	 * @param   string
+	 * @return  float
+	 */
+	public static function format_currency_unit( $amount, $currency ) {
+
+		if( ! Wsspg::is_zero_decimal( $currency ) ) {
+			$amount = sprintf( '%0.2f', $amount / 100 );
+		}
+		return $amount;
 	}
 }

@@ -21,28 +21,28 @@ if( ! defined( 'ABSPATH' ) ) exit; // exit if accessed directly.
  * @class  Wsspg_Subscription_List_Table
  */
 class Wsspg_Subscription_List_Table extends WP_List_Table {
-	
+
 	/**
 	 * Field names and column headers.
 	 *
 	 * @since  1.0.0
 	 */
 	private $fields;
-	
+
 	/**
 	 * A list of subscriptions.
 	 *
 	 * @since  1.0.0
 	 */
 	private $subscriptions;
-	
+
 	/**
 	 * Initialize the (parent) class and set its properties.
 	 *
 	 * @since  1.0.0
 	 */
 	public function __construct() {
-		
+
 		global $status, $page;
 		$this->fields = array(
 			'subscription' => esc_html__( 'Subscription', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
@@ -57,17 +57,17 @@ class Wsspg_Subscription_List_Table extends WP_List_Table {
 			'ajax'     => false
 		));
 	}
-	
+
 	/**
 	 * Get columns.
 	 *
 	 * @since  1.0.0
 	 */
 	public function get_columns() {
-		
+
 		return $this->fields;
 	}
-	
+
 	/**
 	 * Declare sortable columns.
 	 *
@@ -75,21 +75,21 @@ class Wsspg_Subscription_List_Table extends WP_List_Table {
 	 * @return  array
 	 */
 	public function get_sortable_columns() {
-		
+
 		$columns = array();
 		foreach( $this->fields as $key => $value ) {
 			$columns[ $key ] = array( $value, true );
 		}
 		return $columns;
 	}
-	
+
 	/**
 	 * Prepare items.
 	 *
 	 * @since  1.0.0
 	 */
 	public function prepare_items() {
-		
+
 		$search = ( isset( $_REQUEST['s'] ) ) ? trim( $_REQUEST['s'] ) : false;
 		$per_page = 7;
 		$columns = $this->get_columns();
@@ -144,13 +144,7 @@ class Wsspg_Subscription_List_Table extends WP_List_Table {
 					$subscription->plan->id,
 					$subscription->plan->name,
 					$subscription->quantity > 1 ? '<strong> x ' . $subscription->quantity . '</strong>' : '' ,
-					sprintf(
-						'%s%.02f per %s %s(s)',
-						get_woocommerce_currency_symbol( strtoupper( $subscription->plan->currency ) ),
-						( $subscription->plan->amount * $subscription->quantity ) / 100,
-						$subscription->plan->interval_count,
-						$subscription->plan->interval
-					)
+					$this->get_display_amount( $subscription )
 				),
 				'created' => date( DATE_RFC2822, $subscription->created ),
 			);
@@ -166,16 +160,39 @@ class Wsspg_Subscription_List_Table extends WP_List_Table {
 			'total_pages' => ceil( $total_items / $per_page )
 		) );
 	}
-	
+
 	/**
 	 * Column default.
 	 *
 	 * @since  1.0.0
 	 */
 	public function column_default( $item, $column_name ) {
-		
+
 		if( isset( $item[ $column_name ] ) ) {
 			return $item[ $column_name ];
 		}
+	}
+
+	/**
+	 * Return currency display.
+	 *
+	 * @since  1.0.5
+	 * @param  object
+	 */
+	public function get_display_amount( $subscription ) {
+
+		$amount = 0;
+		if( Wsspg::is_zero_decimal( $subscription->plan->currency ) ) {
+			$amount = $subscription->plan->amount * $subscription->quantity;
+		} else {
+			$amount = ( $subscription->plan->amount * $subscription->quantity ) / 100;
+		}
+		return sprintf(
+			'%s%.02f per %s %s(s)',
+			get_woocommerce_currency_symbol( strtoupper( $subscription->plan->currency ) ),
+			( $amount * ( 100 + $subscription->tax_percent ) ) / 100,
+			$subscription->plan->interval_count,
+			$subscription->plan->interval
+		);
 	}
 }

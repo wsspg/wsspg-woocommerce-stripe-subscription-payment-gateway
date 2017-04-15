@@ -21,39 +21,39 @@ if( ! defined( 'ABSPATH' ) ) exit; // exit if accessed directly.
  * @class  Wsspg_Subscriptions
  */
 class Wsspg_Subscriptions {
-	
+
 	/**
 	 * Enabled/disabled.
 	 *
 	 * @since  1.0.0
 	 */
 	private $enabled;
-	
+
 	/**
 	 * Gateway settings.
 	 *
 	 * @since  1.0.0
 	 */
 	private $settings;
-	
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since  1.0.0
 	 */
 	public function __construct() {
-		
+
 		$this->enabled = Wsspg::subscriptions_enabled();
 		$this->settings = Wsspg::get_settings();
 	}
-	
+
 	/**
 	 * Add product data tab.
 	 *
 	 * @since  1.0.0
 	 */
 	public function wsspg_subscriptions_woocommerce_product_data_tabs( $product_data_tabs ) {
-		
+
 		$product_data_tabs['wsspg-subscription-product-data-tab'] = array(
 			'label' => esc_html__( 'Subscription', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 			'target' => 'wsspg-subscription-product-data-tab',
@@ -61,14 +61,14 @@ class Wsspg_Subscriptions {
 		);
 		return $product_data_tabs;
 	}
-	
+
 	/**
 	 * Output product data panel.
 	 *
 	 * @since  1.0.0
 	 */
 	public function wsspg_subscriptions_woocommerce_product_data_panels() {
-		
+
 		echo '<div id="wsspg-subscription-product-data-tab" class="panel woocommerce_options_panel">';
 		global $woocommerce, $post;
 		$meta = get_post_meta( $post->ID );
@@ -190,17 +190,17 @@ class Wsspg_Subscriptions {
 		) );
 		echo '</div>';
 	}
-	
+
 	/**
 	 * Filters add_to_cart_validation for Wsspg settings.
 	 *
 	 * @since  1.0.0
 	 */
 	public function wsspg_subscriptions_woocommerce_add_to_cart_validation( $validation, $object_id ) {
-		
+
 		return $validation;
 	}
-	
+
 	/**
 	 * Filters is_purchasable.
 	 *
@@ -212,7 +212,7 @@ class Wsspg_Subscriptions {
 	 * @since  1.0.0
 	 */
 	public function wsspg_subscriptions_woocommerce_is_purchasable( $is_purchasable, $object ) {
-		
+
 		if( $is_purchasable ) {
 			global $user_ID;
 			$user = wp_get_current_user();
@@ -230,7 +230,7 @@ class Wsspg_Subscriptions {
 		}
 		return $is_purchasable;
 	}
-	
+
 	/**
 	 * Filters is_sold_individually.
 	 *
@@ -240,14 +240,14 @@ class Wsspg_Subscriptions {
 	 * @since  1.0.0
 	 */
 	public function wsspg_subscriptions_woocommerce_is_sold_individually( $is_sold_individually, $object ) {
-		
+
 		$id = version_compare( WC_VERSION, '3.0.0', '<' ) ? $object->id : $object->get_id();
 		$type = version_compare( WC_VERSION, '3.0.0', '<' ) ? $object->product_type : $object->get_type();
 		$ems = get_post_meta( $id, '_wsspg_enable_multiple_subscriptions', true );
 		if( $type === 'wsspg_subscription' && ! $is_sold_individually && $ems !== 'yes' ) return true;
 		return $is_sold_individually;
 	}
-	
+
 	/**
 	 * Filters is_visible.
 	 *
@@ -257,21 +257,21 @@ class Wsspg_Subscriptions {
 	 * @since  1.0.0
 	 */
 	public function wsspg_subscriptions_woocommerce_product_is_visible( $is_visible, $object_id ) {
-		
+
 		if( $is_visible ) {
 			$product = wc_get_product( $object_id );
 			if( $product->is_type( 'wsspg_subscription' ) && ! $this->enabled ) return false;
 		}
 		return $is_visible;
 	}
-	
+
 	/**
 	 * Alter the main query to include/exclude subscriptions.
 	 *
 	 * @since  1.0.0
 	 */
 	public function wsspg_subscriptions_pre_get_posts( $q ) {
-		
+
 		if( ! $q->is_main_query() ) return;
 		if( ! $q->is_post_type_archive() ) return;
 		if( ! is_admin() ) {
@@ -285,35 +285,35 @@ class Wsspg_Subscriptions {
 		}
 		remove_action( 'pre_get_posts', 'wsspg_subscriptions_pre_get_posts' );
 	}
-	
+
 	/**
 	 * Add product type.
 	 *
 	 * @since  1.0.0
 	 */
 	public function wsspg_subscriptions_product_type_selector( $types ) {
-		
+
 		$types[ 'wsspg_subscription' ] = esc_html__( 'Wsspg Subscription Product', 'wsspg-woocommerce-stripe-subscription-payment-gateway' );
 		return $types;
 	}
-	
+
 	/**
 	 * Process and save product meta fields.
 	 *
 	 * @since  1.0.0
 	 */
 	public function wsspg_subscriptions_woocommerce_process_product_meta( $post_id ) {
-		
+
 		$this->wsspg_subscriptions_save_post( $post_id );
 	}
-	
+
 	/**
 	 * Save product settings fields.
 	 *
 	 * @since  1.0.0
 	 */
 	public function wsspg_subscriptions_save_post( $post_id ) {
-		
+
 		if( isset( $_POST['product-type'] ) && isset( $_POST['wsspg-subscription-product-stripe-plan-id'] ) ) {
 			$product_type  = $_POST['product-type'];
 			$plan_id       = $_POST['wsspg-subscription-product-stripe-plan-id'];
@@ -359,13 +359,14 @@ class Wsspg_Subscriptions {
 					delete_post_meta( $post_id, '_wsspg_stripe_plan_trial_period_days' );
 				} else {
 					$plan = $response;
+					$amount = Wsspg::is_zero_decimal( $plan->currency ) ? $plan->amount : $plan->amount / 100;
 					$meta_array = array(
-						'_price'                                 => $plan->amount / 100,
-						'_regular_price'                         => $plan->amount / 100,
+						'_price'                                 => $amount,
+						'_regular_price'                         => $amount,
 						'_sale_price'                            => '',
 						'_wsspg_stripe_plan_id'                 => $plan->id,
 						'_wsspg_stripe_plan_name'               => $plan->name,
-						'_wsspg_stripe_plan_amount'             => $plan->amount / 100,
+						'_wsspg_stripe_plan_amount'             => $amount,
 						'_wsspg_stripe_plan_currency'           => $plan->currency,
 						'_wsspg_stripe_plan_interval'           => $plan->interval,
 						'_wsspg_stripe_plan_interval_count'     => $plan->interval_count,
@@ -395,14 +396,14 @@ class Wsspg_Subscriptions {
 			}
 		}
 	}
-	
+
 	/**
 	 * Output the add to cart for subscriptions.
 	 *
 	 * @since  1.0.0
 	 */
 	public function wsspg_subscriptions_woocommerce_wsspg_subscription_add_to_cart() {
-		
+
 		if( Wsspg::subscriptions_enabled() ) {
 			wc_get_template(
 				'single-product/add-to-cart/wsspg_subscription.php',

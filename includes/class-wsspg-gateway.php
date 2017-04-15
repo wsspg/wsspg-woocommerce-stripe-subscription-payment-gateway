@@ -29,7 +29,7 @@ if( ! defined( 'ABSPATH' ) ) exit; // exit if accessed directly.
  * @extends  WC_Payment_Gateway_CC
  */
 class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
-	
+
 	/**
 	 * Capture or Authorize.
 	 *
@@ -37,7 +37,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @var    string
 	 */
 	private $payment_action;
-	
+
 	/**
 	 * True if Wsspg should save tokenized payment methods for future use.
 	 *
@@ -45,7 +45,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @var    boolean
 	 */
 	private $save_payment_method;
-	
+
 	/**
 	 * Stores the appropriate API key.
 	 *
@@ -53,7 +53,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @var    string
 	 */
 	private $key;
-	
+
 	/**
 	 * Enable or disable Stripe Checkout.
 	 *
@@ -61,7 +61,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @var    boolean
 	 */
 	protected $stripe_checkout_enabled;
-	
+
 	/**
 	 * Specify whether to include the option to "Remember Me" for future purchases.
 	 *
@@ -69,7 +69,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @var    boolean
 	 */
 	private $stripe_checkout_remember_me;
-	
+
 	/**
 	 * Display text on Stripe Checkout modal button.
 	 *
@@ -77,7 +77,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @var    string
 	 */
 	private $stripe_checkout_button;
-	
+
 	/**
 	 * Stripe Checkout language.
 	 *
@@ -85,7 +85,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @var    string
 	 */
 	private $stripe_checkout_locale;
-	
+
 	/**
 	 * URL to brand/logo image.
 	 *
@@ -93,7 +93,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @var    string
 	 */
 	private $stripe_checkout_thumbnail;
-	
+
 	/**
 	 * True if Wsspg should support Bitcoin transactions.
 	 *
@@ -101,7 +101,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @var    boolean
 	 */
 	private $bitcoin;
-	
+
 	/**
 	 * True if Stripe should automatically handle refunded Bitcoin mispayments after one hour.
 	 *
@@ -109,7 +109,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @var    bool
 	 */
 	private $bitcoin_refund_mispayments;
-	
+
 	/**
 	 * True if Wsspg should support Alipay transactions.
 	 *
@@ -117,7 +117,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @var    boolean
 	 */
 	private $alipay;
-	
+
 	/**
 	 * 3 letter ISO currency code (uppercase).
 	 *
@@ -125,7 +125,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @var    string
 	 */
 	private $currency;
-	
+
 	/**
 	 * True if Wsspg should log events.
 	 *
@@ -133,14 +133,14 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @var    boolean
 	 */
 	private $debug;
-	
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since  1.0.0
 	 */
 	public function __construct() {
-		
+
 		$this->id = WSSPG_PLUGIN_ID;
 		$this->method_description = WSSPG_PLUGIN_DESC . '<hr>';
 		$this->method_title = WSSPG_PLUGIN_TITLE;
@@ -161,25 +161,25 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 		$this->stripe_checkout_thumbnail = $this->get_option( 'stripe_checkout_thumbnail', '' );
 		$this->bitcoin = $this->get_option( 'bitcoin', 'disabled' ) === 'enabled' ? true : false;
 		$this->bitcoin_refund_mispayments = $this->get_option( 'bitcoin', 'disabled' ) === 'enabled' ? true : false;
-		$this->alipay = $this->get_option( 'alipay', 'disabled' ) === 'enabled' ? true : false;	
-		$this->debug = $this->get_option( 'debug', 'disabled' );	
+		$this->alipay = $this->get_option( 'alipay', 'disabled' ) === 'enabled' ? true : false;
+		$this->debug = $this->get_option( 'debug', 'disabled' );
 		$this->icon = $this->get_icon();
 		$this->key = Wsspg::get_api_key( 'secret' );
 		$this->currency = strtoupper( get_woocommerce_currency() );
-		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );	
+		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
 		add_action( 'admin_notices', array( $this, 'wsspg_gateway_admin_notices' ) );
 	}
-	
+
 	/**
 	 * Define payment gateway settings fields.
 	 *
 	 * @since  1.0.0
 	 */
 	public function init_form_fields() {
-		
+
 		$this->form_fields = include( 'settings-wsspg.php' );
 	}
-	
+
 	/**
 	 * Process payment.
 	 *
@@ -188,7 +188,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @return  array
 	 */
 	public function process_payment( $order_id ) {
-		
+
 		if( ! isset( $_POST['wsspg-data'] ) ) {
 			throw new Exception();
 		} else {
@@ -384,7 +384,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 			return array( 'result' => 'failure' );
 		}
 	}
-	
+
 	/**
 	 * Process refunds.
 	 *
@@ -395,7 +395,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @return  bool
 	 */
 	public function process_refund( $order_id, $amount = null, $reason = null ) {
-		
+
 		$charge_id = get_post_meta( $order_id, '_wsspg_order_charge_id', true );
 		$charge = Wsspg_Api::request( "charges/{$charge_id}", $this->key );
 		if( isset( $charge  ) ) {
@@ -435,7 +435,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 		//	the refund couldn't be processed.
 		return false;
 	}
-	
+
 	/**
 	 * Add a captured flag to an order once funds have been processed.
 	 *
@@ -443,10 +443,10 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @param  int
 	 */
 	private function wsspg_set_order_funds_captured( $order_id ) {
-		
+
 		update_post_meta( $order_id, '_wsspg_order_funds_captured', true );
 	}
-	
+
 	/**
 	 * Add the charge id to an order.
 	 *
@@ -455,17 +455,17 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @param  int
 	 */
 	private function wsspg_set_order_charge_id( $order_id, $charge_id ) {
-		
+
 		update_post_meta( $order_id, '_wsspg_order_charge_id', $charge_id );
 	}
-	
+
 	/**
 	 * Add a payment method token.
 	 *
 	 * @since  1.0.0
 	 */
 	public function add_payment_method() {
-		
+
 		$customer = Wsspg_Customer::load( get_current_user_id() );
 		if( isset( $customer ) ) {
 			if( !isset( $_POST['wsspg-data'] ) ) {
@@ -516,18 +516,18 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 			'result'   => 'failure'
 		);
 	}
-	
+
 	/**
 	 * Output the admin gateway settings form.
 	 *
 	 * @since  1.0.0
 	 */
 	public function admin_options() {
-		
+
 		// echo '<div class="inline error"><p><strong>Put admin notices here...</strong></p></div>';
 		parent::admin_options();
 	}
-	
+
 	/**
 	 * Adds admin notices to the plugin section only.
 	 *
@@ -535,7 +535,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @hook   admin_notices
 	 */
 	public function wsspg_gateway_admin_notices() {
-		
+
 		/*
 		$screen = get_current_screen();
 		$section = isset( $_GET['section'] ) && $_GET['section'] === WSSPG_PLUGIN_ID ? true : false ;
@@ -546,14 +546,14 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 		}
 		*/
 	}
-	
+
 	/**
 	 * Outputs the checkout page credit card form.
 	 *
 	 * @since  1.0.0
 	 */
 	public function form() {
-		
+
 		global $woocommerce;
 		$cart = $woocommerce->cart->get_cart();
 		foreach( $cart as $cart_item_key => $cart_item ) {
@@ -571,7 +571,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 			include( WSSPG_PLUGIN_DIR_PATH.'templates/checkout/wsspg-inline-cc-form.php' );
 		}
 	}
-	
+
 	/**
 	 * Builds our payment fields area - including a description, tokenization
 	 * fields for logged in users, and the actual payment fields.
@@ -579,7 +579,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @since  1.0.0
 	 */
 	public function payment_fields() {
-		
+
 		if( null !== Wsspg::get_api_key( 'publishable' ) ) {
 			if( is_checkout() ) {
 				$this->tokenization_script();
@@ -601,7 +601,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 			//	some generic error message(s).
 		}
 	}
-	
+
 	/**
 	 * Returns the order total in the smallest currency unit.
 	 *
@@ -610,35 +610,10 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @return  int
 	 */
 	public function wsspg_get_zero_decimal( $total = null ) {
-		
-		if( isset( $total ) ) {
-			switch( $this->currency ) {
-				//	zero decimal currencies.
-				case 'BIF':
-				case 'CLP':
-				case 'DJF':
-				case 'GNF':
-				case 'JPY':
-				case 'KMF':
-				case 'KRW':
-				case 'MGA':
-				case 'PYG':
-				case 'RWF':
-				case 'VND':
-				case 'VUV':
-				case 'XAF':
-				case 'XOF':
-				case 'XPF':
-					$total = absint( $total );
-					break;
-				default:
-					$total = absint( round( $total, 2 ) * 100 );
-					break;
-			}
-		}
-		return $total;
+
+		return Wsspg::get_zero_decimal( $total, $this->currency );
 	}
-	
+
 	/**
 	 * Formats an amount from the smallest currency unit to the largest.
 	 *
@@ -647,34 +622,10 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @param   mixed
 	 */
 	private function wsspg_format_currency_unit( $amount, $currency ) {
-		
-		switch( $currency ) {
-			//	zero decimal currencies.
-			case 'BIF':
-			case 'CLP':
-			case 'DJF':
-			case 'GNF':
-			case 'JPY':
-			case 'KMF':
-			case 'KRW':
-			case 'MGA':
-			case 'PYG':
-			case 'RWF':
-			case 'VND':
-			case 'VUV':
-			case 'XAF':
-			case 'XOF':
-			case 'XPF':
-				//	amount is already in the correct format.
-				break;
-			default:
-				//	format the currency to two decimal places.
-				$amount = sprintf( '%0.2f', $amount / 100 );
-				break;
-		}
-		return $amount;
+
+		return Wsspg::format_currency_unit( $amount, $currency );
 	}
-	
+
 	/**
 	 * Returns true if the order meets Stripe's minimum amount requirement.
 	 *
@@ -682,7 +633,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @return  boolean
 	 */
 	private function wsspg_minimum_order( $amount ) {
-		
+
 		$minimum = 0;
 		switch( $this->currency ) {
 			case 'USD':
@@ -713,7 +664,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 				$minimum = 50;
 				break;
 			case 'JPY':
-				$minimum = 5000;
+				$minimum = 50;
 				break;
 			case 'MXN':
 				$minimum = 1000;
@@ -729,7 +680,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 		}
 		return $amount > $minimum ? true : false;
 	}
-	
+
 	/**
 	 * Returns the site title.
 	 *
@@ -737,7 +688,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @return  string
 	 */
 	public function wsspg_get_store_name() {
-		
+
 		if( is_multisite() ) {
 			global $blog_id;
 			$current_blog_details = get_blog_details( $blog_id );
@@ -746,7 +697,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 			return get_bloginfo( 'name' );
 		}
 	}
-	
+
 	/**
 	 * Return a boolean for capability support.
 	 *
@@ -755,7 +706,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @return  boolean
 	 */
 	public function wsspg_supports( $capability = null ) {
-		
+
 		$bool = false;
 		switch( $capability ) {
 			case 'bitcoin':
@@ -775,14 +726,14 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 		}
 		return $bool;
 	}
-	
+
 	/**
 	 * Process uncaptured funds on order change status: processing.
 	 *
 	 * @since  1.0.0
 	 */
 	public function wsspg_payment_gateway_woocommerce_order_status_processing( $order_id ) {
-		
+
 		if( ! get_post_meta( $order_id, '_wsspg_order_funds_captured', true ) ) {
 			$uncaptured = get_post_meta( $order_id, '_wsspg_order_uncaptured_charge', true );
 			if( isset( $uncaptured ) && ! empty( $uncaptured ) ) {
@@ -815,14 +766,14 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 			}
 		}
 	}
-	
+
 	/**
 	 * Process uncaptured funds on order change status: completed.
 	 *
 	 * @since  1.0.0
 	 */
 	public function wsspg_payment_gateway_woocommerce_order_status_completed( $order_id ) {
-		
+
 		if( ! get_post_meta( $order_id, '_wsspg_order_funds_captured', true ) ) {
 			$uncaptured = get_post_meta( $order_id, '_wsspg_order_uncaptured_charge', true );
 			if( isset( $uncaptured ) && ! empty( $uncaptured ) ) {
@@ -855,47 +806,47 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 			}
 		}
 	}
-	
+
 	/**
 	 * Process order change status: cancelled.
 	 *
 	 * @since  1.0.0
 	 */
 	public function wsspg_payment_gateway_woocommerce_order_status_cancelled( $order_id ) {
-	
+
 		//	not currently implemented.
 	}
-	
+
 	/**
 	 * Process order change status: refunded.
 	 *
 	 * @since  1.0.0
 	 */
 	public function wsspg_payment_gateway_woocommerce_order_status_refunded( $order_id ) {
-		
+
 		//	not currently implemented.
 	}
-	
+
 	/**
 	 * Excludes subscriptions from coupon discounts.
 	 *
 	 * @since  1.0.0
 	 */
 	public function wsspg_payment_gateway_woocommerce_coupon_get_discount_amount( $discount, $discounting_amount, $cart_item, $single ) {
-		
+
 		if( $cart_item['data']->get_type === 'wsspg_subscription' ) {
 			$discount = 0;
 		}
 		return $discount;
 	}
-	
+
 	/**
 	 * Set as default in Stripe.
 	 *
 	 * @since  1.0.0
 	 */
 	public function wsspg_payment_gateway_woocommerce_payment_token_set_default( $token_id ) {
-	
+
 		$customer = Wsspg_Customer::load( get_current_user_id() );
 		$token = WC_Payment_Tokens::get( $token_id );
 		if( WSSPG_PLUGIN_ID === $token->get_gateway_id() ) {
@@ -906,38 +857,38 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 			if( ! isset( $update ) ) throw new Exception();
 		}
 	}
-	
+
 	/**
 	 * Delete a payment source from Stripe.
 	 *
 	 * @since  1.0.0
 	 */
 	public function wsspg_payment_gateway_woocommerce_payment_token_deleted( $card_id ) {
-		
+
 		//	not currently implemented.
 	}
-	
+
 	/**
 	 * Return a user's saved tokens.
 	 *
 	 * @since  1.0.0
 	 */
 	public function get_tokens() {
-		
+
 		$this->tokens = array();
 		if( is_user_logged_in() && $this->supports( 'tokenization' ) ) {
 			$this->tokens = WC_Payment_Tokens::get_customer_tokens( get_current_user_id(), $this->id );
 		}
 		return $this->tokens;
 	}
-	
+
 	/**
 	 * Return the gateway's checkout icon.
 	 *
 	 * @since  1.0.0
 	 */
 	public function get_icon() {
-		
+
 		$ext = '.svg';
 		$icon_array = array(
 			'visa' => array(
@@ -976,7 +927,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 				'width' => 16,
 				'enabled' => $this->bitcoin && $this->stripe_checkout_enabled ? true : false,
 			),
-		);	
+		);
 		$icon = '';
 		$icon_count = count( $icon_array );
 		foreach( $icon_array as $icon_item ) {
@@ -985,7 +936,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 				$icon_alt = $icon_item['alt'];
 				$icon_width = $icon_item['width'];
 				$icon_style = 'margin:6px 1px 0 0;';
-				$icon .= "<img src='{$icon_src}' alt='{$icon_alt}' width='{$icon_width}' style='{$icon_style}' />";	
+				$icon .= "<img src='{$icon_src}' alt='{$icon_alt}' width='{$icon_width}' style='{$icon_style}' />";
 			}
 		}
 		return apply_filters( 'woocommerce_gateway_icon', $icon, $this->id );

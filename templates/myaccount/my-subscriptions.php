@@ -14,7 +14,7 @@ if( ! defined( 'ABSPATH' ) ) exit; // exit if accessed directly.
 
 /**
  * Wsspg My Account Subscriptions HTML
- * 
+ *
  * @since  1.0.0
  */
 ?>
@@ -27,21 +27,21 @@ if( ! defined( 'ABSPATH' ) ) exit; // exit if accessed directly.
 <table class="shop_table shop_table_responsive">
 <thead>
 <tr>
-	
+
 	<th class="plan-name"><span class="nobr"><?php echo esc_html__( 'Plan', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ); ?></span></th>
 	<th class="plan-amount"><span class="nobr"><?php echo esc_html__( 'Amount', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ); ?></span></th>
 	<th class="plan-status"><span class="nobr"><?php echo esc_html__( 'Status', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ); ?></span></th>
 	<?php if( $this->mode === 'enabled' ): ?>
 	<th class="plan-cancel"><span class="nobr"><?php echo esc_html__( 'Cancel', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ); ?></span></th>
 	<?php endif; ?>
-	
+
 </tr>
 </thead>
 <tbody>
 <?php $i = 0; ?>
 <?php foreach( $subscriptions->data as $subscription ): ?>
 <tr class="subscription">
-	
+
 	<td class="plan-name" data-title="<?php echo esc_attr( esc_html__( 'Plan', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) ); ?>">
 	<?php $quantity = $subscription->quantity > 1 ? ' x <strong>' . $subscription->quantity . '</strong>' : ''; ?>
 	<?php if( isset( $subscription->metadata->product_id ) ): ?>
@@ -59,7 +59,11 @@ if( ! defined( 'ABSPATH' ) ) exit; // exit if accessed directly.
 	<?php endif; ?>
 	</td>
 	<td class="plan-amount" data-title="<?php echo esc_attr( esc_html__( 'Amount', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ) ); ?>">
-	<?php echo '<strong>'.get_woocommerce_currency_symbol( strtoupper( $subscription->plan->currency ) ) . preg_replace( '/.00/', '', sprintf( '%0.2f', ( ( ( $subscription->plan->amount * $subscription->quantity ) / 100 ) * ( 100 + $subscription->tax_percent ) ) / 100 ) ) . '</strong>'; ?>
+	<?php if( Wsspg::is_zero_decimal( $subscription->plan->currency ) ): ?>
+		<?php echo '<strong>'.get_woocommerce_currency_symbol( strtoupper( $subscription->plan->currency ) ) . sprintf( '%0.0f', ( ( $subscription->plan->amount * $subscription->quantity )  * ( 100 + $subscription->tax_percent  ) / 100 ) ) . '</strong>'; ?>
+	<?php else : ?>
+		<?php echo '<strong>'.get_woocommerce_currency_symbol( strtoupper( $subscription->plan->currency ) ) . preg_replace( '/.00/', '', sprintf( '%0.2f', ( ( ( $subscription->plan->amount * $subscription->quantity ) / 100 ) * ( 100 + $subscription->tax_percent ) ) / 100 ) ) . '</strong>'; ?>
+	<?php endif; ?>
 	<?php if( $subscription->plan->interval_count > 1 ): ?>
 	<?php echo ' '.esc_html__( 'every', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ).' <strong>'.$subscription->plan->interval_count.' '.$subscription->plan->interval.'s</strong>'; ?>
 	<?php else : ?>
