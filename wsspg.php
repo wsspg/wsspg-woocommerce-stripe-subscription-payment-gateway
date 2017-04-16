@@ -4,14 +4,14 @@
  *
  * @package    Wsspg
  * @author     wsspg <wsspg@mail.com>
- * @version    1.0.4
+ * @version    1.0.5
  * @license    https://www.gnu.org/licenses/gpl-3.0.txt
  * @copyright  (c) 2016 https://github.com/wsspg
  *
  * @wordpress-plugin
  * Plugin Name:        WooCommerce Stripe Subscription Payment Gateway
  * Plugin URI:         https://github.com/wsspg/wsspg-woocommerce-stripe-subscription-payment-gateway
- * Version:            1.0.4
+ * Version:            1.0.5
  * Author:             Wsspg
  * Author URI:         https://github.com/wsspg
  * Description:        Accept <strong>Credit Cards</strong>, <strong>Bitcoin</strong>, <strong>Alipay</strong>, and connect your <strong>WooCommerce</strong> store to <strong>Stripe</strong>'s Subscription API.
@@ -48,7 +48,7 @@ if( ! defined( 'ABSPATH' ) ) exit; // exit if accessed directly.
  * @hook   register_activation_hook
  */
 function activate_wsspg() {
-	
+
 	require_once plugin_dir_path( __FILE__ ).'includes/class-wsspg-activator.php';
 	Wsspg_Activator::activate();
 }
@@ -60,7 +60,7 @@ function activate_wsspg() {
  * @hook   register_deactivation_hook
  */
 function deactivate_wsspg() {
-	
+
 	require_once plugin_dir_path( __FILE__ ).'includes/class-wsspg-deactivator.php';
 	Wsspg_Deactivator::deactivate();
 }
@@ -72,7 +72,7 @@ function deactivate_wsspg() {
  * @hook   plugins_loaded
  */
 function localize_wsspg() {
-	
+
 	require_once plugin_dir_path( __FILE__ ).'includes/class-wsspg-i18n.php';
 	Wsspg_i18n::load_textdomain();
 }
@@ -83,7 +83,7 @@ function localize_wsspg() {
  * @since  1.0.0
  */
 function run_wsspg() {
-	
+
 	require_once plugin_dir_path( __FILE__ ).'includes/class-wsspg.php';
 	$plugin = new Wsspg();
 	$plugin->run();
@@ -96,7 +96,7 @@ function run_wsspg() {
  * @hook   admin_init
  */
 function fail_wsspg() {
-	
+
 	deactivate_plugins( plugin_basename( __FILE__ ) );
 	if( isset( $_GET['activate'] ) ) unset( $_GET['activate'] );
 	add_action( 'admin_notices', 'wsspg_failed' );
@@ -109,7 +109,7 @@ function fail_wsspg() {
  * @hook   admin_notices
  */
 function wsspg_failed() {
-	
+
 	echo sprintf(
 		esc_html__( '%sOops:%s WooCommerce Stripe Subscription Payment Gateway encountered an error.%s', 'wsspg-woocommerce-stripe-subscription-payment-gateway' ),
 		'<div class="notice notice-error is-dismissible"><p><strong>','</strong>','</p></div>'
@@ -125,11 +125,11 @@ function wsspg_failed() {
  * @hook   init
  */
 function init_wsspg() {
-	
+
 	if( ! class_exists( 'WC_Payment_Gateway' ) ) {
 		add_action( 'admin_init', 'fail_wsspg' );
 	} else {
-		$_version   = '1.0.4';
+		$_version   = '1.0.5';
 		$_id        = 'wsspg';
 		$_title     = 'Stripe (wsspg)';
 		$_desc      = sprintf(

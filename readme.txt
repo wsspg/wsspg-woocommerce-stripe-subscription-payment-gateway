@@ -4,7 +4,7 @@ Donate link: https://github.com/wsspg
 Tags: wsspg, stripe, subscription, subscriptions, woocommerce, pci, dss,
 Requires at least: 4.5.3
 Tested up to: 4.7.3
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -59,6 +59,9 @@ If you need a helping hand, you'll find one on the [support forums](https://word
 3. The subscription product type.
 
 == Changelog ==
+
+= 1.0.5 - 2017-05-16 =
+* Fix - Zero decimal currency display.
 
 = 1.0.4 - 2017-04-27 =
 * Add - Compatibility with WooCommerce 3.0.
