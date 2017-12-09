@@ -272,6 +272,10 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 			//	throw an exception if the subscription comes back null.
 			//	flag the subscription amount.
 			foreach( $cart as $cart_item_key => $cart_item ) {
+
+
+				Wsspg::log( $cart_item );
+
 				$item = $cart_item['data'];
 				if( $item->get_type() === 'wsspg_subscription' ) {
 					//	support for subscription tax percent
