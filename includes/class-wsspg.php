@@ -56,8 +56,6 @@ class Wsspg {
 	 */
 	public function __construct() {
 
-		Wsspg::log( null, 'hello :)' );
-
 		$this->load_dependencies();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
