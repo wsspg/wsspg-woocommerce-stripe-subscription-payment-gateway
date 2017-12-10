@@ -14,29 +14,32 @@
 
 if( ! defined( 'ABSPATH' ) ) exit; // exit if accessed directly.
 
-//	we'll need some of the user's info.
 $current_user = wp_get_current_user();
 $user_email = $current_user->user_email;
 $cart_total = WC()->cart->total;
+$attributes = array(
+	'key' => esc_attr( Wsspg::get_api_key( 'publishable' ) ),
+	'label' => esc_attr( $this->stripe_checkout_button ),
+	'email' => esc_attr( $user_email ),
+	'amount' => esc_attr( $this->wsspg_get_zero_decimal( $cart_total ) ),
+	'name' => esc_attr( $this->wsspg_get_store_name() ),
+	'currency' => esc_attr( strtolower( $this->currency ) ),
+	'image' => esc_attr( $this->stripe_checkout_thumbnail ),
+	'bitcoin' => $this->wsspg_supports('bitcoin') ? 'true' : 'false',
+	'locale' => esc_attr( $this->stripe_checkout_locale ),
+	'remember-me' => $this->stripe_checkout_remember_me ? 'true' : 'false',
+	'refund-mispayments' => $this->bitcoin_refund_mispayments ? 'true' : 'false',
+	'alipay' => $this->wsspg_supports('alipay') ? 'true' : 'false',
+);
 
 /**
  * Wsspg Stripe Checkout HTML
- * 
+ *
  * @since  1.0.0
  */
 ?>
 
-<div id="wsspg-data"
-data-key="<?php echo esc_attr( Wsspg::get_api_key( 'publishable' ) ); ?>"
-data-label="<?php echo esc_attr( $this->stripe_checkout_button ); ?>"
-data-email="<?php echo esc_attr( $user_email ); ?>"
-data-amount="<?php echo esc_attr( $this->wsspg_get_zero_decimal( $cart_total ) ); ?>"
-data-name="<?php echo esc_attr( $this->wsspg_get_store_name() ); ?>"
-data-currency="<?php echo esc_attr( strtolower( $this->currency ) ); ?>"
-data-image="<?php echo esc_attr( $this->stripe_checkout_thumbnail ); ?>"
-data-bitcoin="<?php echo $this->wsspg_supports('bitcoin') ? 'true' : 'false'; ?>"
-data-locale="<?php echo esc_attr( $this->stripe_checkout_locale ); ?>"
-data-remember-me="<?php echo $this->stripe_checkout_remember_me ? 'true' : 'false'; ?>"
-data-refund-mispayments="<?php echo $this->bitcoin_refund_mispayments ? 'true' : 'false'; ?>"
-data-alipay="<?php echo $this->wsspg_supports('alipay') ? 'true' : 'false'; ?>"
+<div id="wsspg-data" <?php foreach( $attributes as $key => $attr ): ?>
+<?php echo 'data-'.$key.'="'.$attr.'" '; ?>
+<?php endforeach; ?>
 ></div>
