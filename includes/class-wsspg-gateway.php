@@ -241,7 +241,6 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 			}
 			/* ------------- SET SOURCE ------------------------ */
 			$source = ( $customer->source instanceof WC_Payment_Token_CC ) ? $customer->source->get_token() : $customer->source->id;
-			Wsspg::log( $source );
 			/* ------------- AUTH CHECK LOGIC ------------------ */
 			//	ensure that the customer's source will succeed
 			//	for the total amount before proceeding.
@@ -536,6 +535,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 						$customer->_object = Wsspg_API::request( 'customers', $this->key, $customer->params );
 						if( ! isset( $customer->_object->id ) ) throw new Exception();
 						$customer->stripe = $customer->_object->id;
+						$customer->save();
 					}
 					$customer->source = Wsspg_API::request(
 						"customers/{$customer->stripe}/sources",

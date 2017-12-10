@@ -36,7 +36,7 @@ class Wsspg_Customer {
 	 * @since  1.0.0
 	 * @var    object
 	 */
-	private $data;
+	public $data;
 
 	/**
 	 * The customer's Stripe id string.
