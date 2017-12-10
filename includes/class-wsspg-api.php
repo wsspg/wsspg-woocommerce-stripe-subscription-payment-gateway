@@ -21,14 +21,14 @@ if( ! defined( 'ABSPATH' ) ) exit; // exit if accessed directly.
  * @class  Wsspg_API
  */
 class Wsspg_API {
-	
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since  1.0.0
 	 */
 	public function __construct() {}
-	
+
 	/**
 	 * Stripe API request handler.
 	 *
@@ -43,7 +43,7 @@ class Wsspg_API {
 	 * @return  object | null
 	 */
 	public static function request( $action, $key, $params = array(), $method = 'POST' ) {
-		
+
 		$url = WSSPG_PLUGIN_API.$action;
 		$data = array(
 			'method'   => $method,
@@ -84,12 +84,3 @@ class Wsspg_API {
 		return null;
 	}
 }
-
-
-
-
-
-
-
-
-

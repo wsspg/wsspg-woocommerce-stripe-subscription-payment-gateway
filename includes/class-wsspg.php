@@ -432,40 +432,38 @@ class Wsspg {
 	/**
 	 * Static error and event logging.
 	 *
-	 * Usage: Wsspg::log( $message, $event, $type );
+	 * Usage: Wsspg::log( $message, $type );
 	 *
 	 * @since  1.0.0
 	 * @param  string
 	 */
-	public static function log( $message, $event = null, $type = null  ) {
+	public static function log( $message, $type = null  ) {
 
+		$datetime = new DateTime();
+		$datetime = $datetime->format( 'Y-m-d H:i:s' );
+		$timezone = date_default_timezone_get();
+		$message = print_r( $message, true );
 
-		if( WSSPG_PLUGIN_DEBUG ) {
+		if( defined( 'WSSPG_PLUGIN_DEBUG' ) && WSSPG_PLUGIN_DEBUG ) {
 			if( empty( self::$log ) ) {
 				self::$log = new WC_Logger();
 			}
 			self::$log->add( 'wsspg-woocommerce-stripe-subscription-payment-gateway', $message );
 			if( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				error_log( $message );
-			}
-		}
-		if( WSSPG_PLUGIN_DEV ) {
-			if( isset( $event ) ) {
-				$datetime = new DateTime();
-				$datetime = $datetime->format( 'Y-m-d H:i:s' );
-				$timezone = date_default_timezone_get();
-				$event = print_r( $event, true );
-				$option = 3;
-				$type = preg_replace('/\s+/','',$type);
-				if( ! isset( $type ) || empty( $type ) || is_null( $type ) ) {
-					$type = 'error';
+				if( defined( 'WSSPG_PLUGIN_DEV' ) && WSSPG_PLUGIN_DEV ) {
+					$type = preg_replace('/\s+/','',$type);
+					if( ! isset( $type ) || empty( $type ) || is_null( $type ) ) {
+						$type = 'error';
+					}
+					$filepath = WSSPG_PLUGIN_DIR_PATH."/log/$type.log";
+					error_log(
+						"[$datetime $timezone]\t$message\n",
+						3,
+						$filepath
+					);
+				} else {
+					error_log( $message );
 				}
-				$filepath = WSSPG_PLUGIN_DIR_PATH."/log/$type.log";
-				error_log(
-					"[$datetime $timezone]\t$event\n",
-					$option,
-					$filepath
-				);
 			}
 		}
 	}

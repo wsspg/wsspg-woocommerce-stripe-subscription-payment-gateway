@@ -222,7 +222,6 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 			//	retrieve a saved payment source token, or create a new one.
 			//	throw an error if the api request returns null.
 			//	maybe save the source token.
-			//	update registered user meta.
 			if( $data['method'] === 'saved' ) {
 				$customer->source = $customer->get_saved_source( $data['token'] );
 			} else {
@@ -240,6 +239,45 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 			if( isset( $data['token']['object'] ) ) {
 				if( $data['token']['object'] === 'bitcoin_receiver' ) $this->payment_action = 'capture';
 			}
+			/* ------------- SET SOURCE ------------------------ */
+			$source = ( $customer->source instanceof WC_Payment_Token_CC ) ? $customer->source->get_token() : $customer->source->id;
+			Wsspg::log( $source );
+			/* ------------- AUTH CHECK LOGIC ------------------ */
+			//	ensure that the customer's source will succeed
+			//	for the total amount before proceeding.
+			//	throw an exception or refund the uncaptured charge.
+			$params = array(
+				"amount" => $this->wsspg_get_zero_decimal( $order->get_total() ),
+				"currency" => $order->get_currency(),
+				"customer" => $customer->stripe,
+				"source" => $source,
+				"description" => esc_html__(
+					'checkout_preprocessor',
+					'wsspg-woocommerce-stripe-subscription-payment-gateway'
+				),
+				"capture" => 'false',
+				"metadata" => array(
+					'order_id' => $order->get_id()
+				),
+			);
+			$charge = Wsspg_API::request( 'charges', $this->key, $params );
+			if( ! isset( $charge ) ) throw new Exception();
+			$params = array(
+				'charge'    => $charge->id,
+				'amount'    => $this->wsspg_get_zero_decimal( $order->get_total() ),
+				'metadata'  => array(
+					'refunded_by'  => esc_html__(
+						'checkout_preprocessor',
+						'wsspg-woocommerce-stripe-subscription-payment-gateway'
+					),
+					'reason_given' => esc_html__(
+						'Releasing checkout_preprocessor authorization.',
+						'wsspg-woocommerce-stripe-subscription-payment-gateway'
+					),
+				)
+			);
+			$refund = Wsspg_API::request( 'refunds', $this->key, $params );
+			if( ! isset( $refund ) ) throw new Exception();
 			/* ------------- SUBSCRIPTIONS LOGIC --------------- */
 			//	grab the cart, declare some flags.
 			$cart = $woocommerce->cart->get_cart();
@@ -256,7 +294,8 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 					$to_pay['subscriptions'] += $cart_item['line_total'] + $cart_item['line_subtotal_tax'];
 				}
 			}
-			//	if the total amount to pay (excluding subscriptions) is less than zero,
+			//	if the total amount to pay (excluding subscriptions) is more than zero,
+			//	but less than the Stripe minimum,
 			//	throw an exception.
 			$amount = $this->wsspg_get_zero_decimal( $to_pay['total'] - $to_pay['subscriptions'] );
 			if( $amount > 0 ) {
@@ -272,9 +311,6 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 			//	throw an exception if the subscription comes back null.
 			//	flag the subscription amount.
 			foreach( $cart as $cart_item_key => $cart_item ) {
-
-
-				Wsspg::log( $cart_item );
 
 				$item = $cart_item['data'];
 				if( $item->get_type() === 'wsspg_subscription' ) {
@@ -308,10 +344,11 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 					if( isset( $roles ) ) $metadata = array_merge( $roles, $metadata );
 					$params = array(
 						"customer" => $customer->stripe,
+						"source" => $source,
 						"plan" => $item->get_plan_id(),
 						"quantity" => $cart_item['quantity'],
 						"tax_percent" => $tax_percent,
-						"metadata" => $metadata
+						"metadata" => $metadata,
 					);
 					$subscription = Wsspg_API::request( 'subscriptions', $this->key, $params );
 					if( ! isset( $subscription ) ) throw new Exception();
@@ -333,6 +370,7 @@ class Wsspg_Payment_Gateway extends WC_Payment_Gateway_CC {
 					"amount" => $amount,
 					"currency" => $order->get_currency(),
 					"customer" => $customer->stripe,
+					"source" => $source,
 					"description" => get_post_meta( $order->get_id(), '_wsspg_order_description', true ),
 					"capture" => $this->payment_action === 'capture' ? 'true' : 'false',
 					"metadata" => array(

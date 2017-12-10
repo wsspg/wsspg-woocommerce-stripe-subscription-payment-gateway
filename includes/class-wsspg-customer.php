@@ -21,7 +21,7 @@ if( ! defined( 'ABSPATH' ) ) exit; // exit if accessed directly.
  * @class  Wsspg_Customer
  */
 class Wsspg_Customer {
-	
+
 	/**
 	 * WP User ID
 	 *
@@ -29,7 +29,7 @@ class Wsspg_Customer {
 	 * @var    int
 	 */
 	private $uid;
-	
+
 	/**
 	 * WP User object.
 	 *
@@ -37,7 +37,7 @@ class Wsspg_Customer {
 	 * @var    object
 	 */
 	private $data;
-	
+
 	/**
 	 * The customer's Stripe id string.
 	 *
@@ -45,7 +45,7 @@ class Wsspg_Customer {
 	 * @var    string
 	 */
 	public $stripe;
-	
+
 	/**
 	 * Customer params.
 	 *
@@ -53,7 +53,7 @@ class Wsspg_Customer {
 	 * @var    array
 	 */
 	public $params;
-	
+
 	/**
 	 * True if the customer is not a registered user.
 	 *
@@ -61,7 +61,7 @@ class Wsspg_Customer {
 	 * @var    boolean
 	 */
 	public $guest;
-	
+
 	/**
 	 * The Stripe customer object.
 	 *
@@ -69,7 +69,7 @@ class Wsspg_Customer {
 	 * @var    object
 	 */
 	public $_object;
-	
+
 	/**
 	 * The customer's payment source identification string.
 	 *
@@ -77,7 +77,7 @@ class Wsspg_Customer {
 	 * @var    string
 	 */
 	public $source;
-	
+
 	/**
 	 * The customer's payment source token.
 	 *
@@ -85,7 +85,7 @@ class Wsspg_Customer {
 	 * @var    string
 	 */
 	public $token;
-	
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -98,7 +98,7 @@ class Wsspg_Customer {
 	 * @param  int
 	 */
 	private function __construct( $uid = null ) {
-		
+
 		if( ! isset( $uid ) ) {
 			throw new Exception();
 		} else {
@@ -109,7 +109,7 @@ class Wsspg_Customer {
 				$this->data = get_userdata( $uid );
 		}
 	}
-	
+
 	/**
 	 * Load an instance of the customer class. Returns null if
 	 * the constructor throws an error.
@@ -119,14 +119,14 @@ class Wsspg_Customer {
 	 * @return  object | null
 	 */
 	public static function load( $uid = null ) {
-		
+
 		try {
 			return new Wsspg_Customer( $uid );
 		} catch( Exception $e ) {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Retrieve the customer's Stripe ID from usermeta.
 	 *
@@ -134,7 +134,7 @@ class Wsspg_Customer {
 	 * @return  string
 	 */
 	private function get_stripe() {
-		
+
 		if( $this->guest ) return null;
 		$meta = get_user_meta( $this->uid, WSSPG_PLUGIN_MODE.'_stripe_id', true );
 		if( empty( $meta ) ) return null;
@@ -143,26 +143,26 @@ class Wsspg_Customer {
 		}
 		return $meta;
 	}
-	
+
 	/**
 	 * Save a new customer's Stripe ID.
 	 *
 	 * @since  1.0.0
 	 */
 	public function save() {
-		
+
 		if( ! isset( $this->stripe ) || ! isset( $this->uid ) ) return null;
 		return update_user_meta( $this->uid, WSSPG_PLUGIN_MODE.'_stripe_id', $this->stripe );
 	}
-	
+
 	/**
-	 * Returns an array with a comma-delimited string of roles to add to a user. 
+	 * Returns an array with a comma-delimited string of roles to add to a user.
 	 *
 	 * @since   1.0.0
 	 * @return  array | null
 	 */
 	public function roles( $item ) {
-		
+
 		if( ! $this->guest ) {
 			if( isset( $item->product_custom_fields['_wsspg_subscription_product_user_roles'][0] ) ) {
 				return array(
@@ -177,7 +177,7 @@ class Wsspg_Customer {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Adds user roles for successful subscriptions.
 	 *
@@ -185,7 +185,7 @@ class Wsspg_Customer {
 	 * @return  array | null
 	 */
 	public function add_roles( $subscription ) {
-		
+
 		if( ! $this->guest ) {
 			if( isset( $subscription->metadata->roles ) ) {
 				$user = new WP_User( $this->uid );
@@ -198,7 +198,7 @@ class Wsspg_Customer {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Customer has successfully subscribed to a plan.
 	 * - update user meta.
@@ -207,14 +207,14 @@ class Wsspg_Customer {
 	 * @since  1.0.0
 	 */
 	public function has_subscribed_to( $subscription ) {
-		
+
 		if( ! $this->guest ) {
 			$plan_id = array( $subscription->plan->id );
 			$user_subs = maybe_unserialize( get_user_meta( $this->uid, WSSPG_PLUGIN_MODE.'_subscriptions', true ) );
 			if( isset( $user_subs ) && is_array( $user_subs ) ) {
 				update_user_meta( $this->uid, WSSPG_PLUGIN_MODE.'_subscriptions', array_unique( array_merge( $user_subs, $plan_id ) ) );
 			} else {
-				update_user_meta( $this->uid, WSSPG_PLUGIN_MODE.'_subscriptions', $plan_id );				
+				update_user_meta( $this->uid, WSSPG_PLUGIN_MODE.'_subscriptions', $plan_id );
 			}
 			if( isset( $subscription->metadata->roles ) ) {
 				$user = new WP_User( $this->uid );
@@ -227,14 +227,14 @@ class Wsspg_Customer {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Save a customer's payment method for future use.
 	 *
 	 * @since  1.0.0
 	 */
 	public function save_source() {
-		
+
 		$token = new WC_Payment_Token_CC();
 		$token->add_meta_data( 'mode', WSSPG_PLUGIN_MODE, true);
 		$token->add_meta_data( 'customer', $this->stripe, true);
@@ -247,7 +247,7 @@ class Wsspg_Customer {
 		$token->set_user_id( $this->uid );
 		$token->save();
 	}
-	
+
 	/**
 	 * The customer has a saved method they wish to use.
 	 *
@@ -256,7 +256,7 @@ class Wsspg_Customer {
 	 * @return  null | object
 	 */
 	public function get_saved_source( $id = null ) {
-		
+
 		$token = WC_Payment_Tokens::get( $id );
 		//	return null if the token's user ID does not match our customer's user ID.
 		if( (int) $token->get_user_id() !== (int) $this->uid || $token->get_meta( 'mode') !== WSSPG_PLUGIN_MODE ) {
@@ -265,5 +265,5 @@ class Wsspg_Customer {
 			//	the token belongs to this customer.
 			return $token;
 		}
-	}	
+	}
 }
