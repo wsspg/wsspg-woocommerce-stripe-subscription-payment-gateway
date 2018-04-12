@@ -98,16 +98,17 @@
 					if( typeof Stripe === 'function' ) {
 					
 						Stripe.setPublishableKey( wsspg.pkey );
-					
+
 						Stripe.card.createToken({
 					
 							number:    $('#wsspg-cc-number').val(),
 							cvc:       $('#wsspg-cc-cvc').val(),
 							exp_month: $('#wsspg-cc-exp-month').val(),
 							exp_year:  $('#wsspg-cc-exp-year').val(),
-							name: $('#billing_first_name').val() + ' ' + 
-								$('#billing_last_name').val() + ' <' + 
-								$('#billing_email').val() + '>',
+							name:     ($('#billing_first_name').length ? $('#billing_first_name').val() : '')
+									+ ($('#billing_first_name').length && $('#billing_last_name').length ? ' ' : '')
+									+ ($('#billing_last_name').length ? $('#billing_last_name').val() : '')
+									+ ($('#billing_email').length ? ' <' + $('#billing_email').val() + '>' : ''),
 							address_line1:    $('#billing_address_1').val(),
 							address_line2:    $('#billing_address_2').val(),
 							address_city:     $('#billing_city').val(),
