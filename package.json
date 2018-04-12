@@ -1,0 +1,13 @@
+{
+  "name": "wsspg-woocommerce-stripe-subscription-payment-gateway",
+  "repository": "https://github.com/wsspg/wsspg-woocommerce-stripe-subscription-payment-gateway",
+  "license": "GPL-3.0",
+  "version": "1.0.6",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-nodeunit": "~0.4.1",
+    "grunt-contrib-uglify": "~0.5.0"
+  }
+}
