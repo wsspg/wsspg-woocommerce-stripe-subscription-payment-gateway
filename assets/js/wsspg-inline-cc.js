@@ -107,8 +107,7 @@
 							exp_year:  $('#wsspg-cc-exp-year').val(),
 							name:     ($('#billing_first_name').length ? $('#billing_first_name').val() : '')
 									+ ($('#billing_first_name').length && $('#billing_last_name').length ? ' ' : '')
-									+ ($('#billing_last_name').length ? $('#billing_last_name').val() : '')
-									+ ($('#billing_email').length ? ' <' + $('#billing_email').val() + '>' : ''),
+									+ ($('#billing_last_name').length ? $('#billing_last_name').val() : ''),
 							address_line1:    $('#billing_address_1').val(),
 							address_line2:    $('#billing_address_2').val(),
 							address_city:     $('#billing_city').val(),
