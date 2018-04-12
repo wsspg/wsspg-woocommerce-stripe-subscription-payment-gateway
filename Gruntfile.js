@@ -9,10 +9,28 @@ module.exports = function(grunt) {
                     'assets/js/wsspg-stripe-checkout.min.js': ['assets/js/wsspg-stripe-checkout.js']
                 }
             }
+        },
+        version: {
+            defaults: {
+                src: ['wsspg.php']
+            },
+            wsspg: {
+                options: {
+                    prefix: '@version\\s*'
+                },
+                src: ['wsspg.php']
+            },
+            readme: {
+                options: {
+                    prefix: 'Stable tag:\\s*'
+                },
+                src: ['readme.txt']
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-version');
 
     grunt.registerTask('default', ['uglify']);
 };
