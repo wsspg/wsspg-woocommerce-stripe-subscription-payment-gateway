@@ -1,0 +1,7 @@
+{
+    "name": "wsspg/wsspg-woocommerce-stripe-subscription-payment-gateway",
+    "description": "Accept Credit Cards, Bitcoin, Alipay, and connect your WooCommerce store to Stripe's Subscription API.",
+    "type": "wordpress-plugin",
+    "license": "GPL-3.0",
+    "require": {}
+}

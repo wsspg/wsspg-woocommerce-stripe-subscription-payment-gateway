@@ -23,3 +23,5 @@ i18n/languages/README
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+/vendor/
